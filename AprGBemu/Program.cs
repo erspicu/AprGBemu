@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using System.Windows.Forms;
-
 namespace AprGBemu
 {
     static class Program
@@ -13,9 +10,10 @@ namespace AprGBemu
         [STAThread]
         static void Main()
         {
+            AppDomain.CurrentDomain.AppendPrivatePath(Application.StartupPath + "\\DLLs");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run( new AprGBemu_MainUI() );
+            Application.Run( AprGBemu_MainUI.GetInstance() );
         }
     }
 }

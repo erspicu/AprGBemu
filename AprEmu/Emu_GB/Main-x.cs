@@ -5,10 +5,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.Diagnostics;
+
 namespace AprEmu.GB
 {
     public partial class Apr_GB
     {
+
         Flag_Status flagZ = Flag_Status.clear, flagN = Flag_Status.clear, flagH = Flag_Status.clear, flagC = Flag_Status.clear;
         byte r_A = 0, r_B = 0, r_C = 0, r_D = 0, r_E = 0, r_H = 0, r_L = 0; //8bits Register
         ushort r_SP = 0, r_PC = 0; // Stack & Program Counter
@@ -33,6 +35,7 @@ namespace AprEmu.GB
         ushort timer_overfolow = 1024;
         Stopwatch StopWatch = new Stopwatch();
 
+
         //for mbc
         byte Cartridge_type = 0;
         byte rom_bank_select = 1;
@@ -41,7 +44,7 @@ namespace AprEmu.GB
 
         //for screen output
         Graphics Screen_Panel = null;
-        public Point Screen_loc; // = new Point(48, 40);
+        Point Screen_loc; // = new Point(48, 40);
 
         public void GB_Init_LoadRom(byte[] rom_bytes)
         {
@@ -72,22 +75,14 @@ namespace AprEmu.GB
                 Buffer_Background1_t1_array[i] = new byte[256];
             }
 
+            /*for (int i = 0; i < 384; i++)
+                title_sets[i] = new byte[8][];
             for (int i = 0; i < 384; i++)
-                title_update_mark[i] = 0;
-
-            for (int i = 0; i < 1024; i++)
-            {
-                Buffer_Background0_t0_update[i] = 0;
-                Buffer_Background1_t1_update[i] = 0;
-                Buffer_Background0_t1_update[i] = 0;
-                Buffer_Background1_t0_update[i] = 0;
-            }
-
+                for(int j = 0  ; j < 8 ; j++)
+                title_sets[i][j] = new byte[8];*/
+            
             for (int i = 0; i < 160; i++)
                 Buffer_Screen_array[i] = new uint[144];
-
-            for (int i = 0; i < 320; i++)
-                Buffer_Screen_array2xbuffer[i] = new uint[288];
 
             for (int i = 0; i < 4; i++)
                 GB_SwitchableRAM[i] = new byte[0x2000];
@@ -124,12 +119,16 @@ namespace AprEmu.GB
             start_run = true;
             Console.WriteLine("init finish");
         }
+
         public void bind_Screen(ref Graphics dc, int x, int y)
         {
             Screen_loc = new Point(x, y);
             Screen_Panel = dc;
         }
+
         public bool device_maybe_locking = false;
+
+
         public void WaitUnlock()
         {
             device_maybe_locking = true;
@@ -138,34 +137,52 @@ namespace AprEmu.GB
             while (device_maybe_locking != false)
                 Thread.Sleep(0);
         }
+
         public void GB_run()
         {
+
             if (Screen_Panel == null)
             {
                 MessageBox.Show("need bind Graphics");
                 return;
             }
+
             if (start_run == false)
             {
                 MessageBox.Show("not initialized");
                 return;
             }
+
             StopWatch.Restart();
+
             while (true & !device_maybe_locking)
             {
+
+
+
+
+
+
+                GB_Timing(); //時序處理
                 //cpu 處理opcode
                 if (!flagHalt && !flagStop)
                     GB_CPU_exec();
                 else
                     Cpu_cycles = 4;
+
                 if (flagIME) //中斷條件檢查
                     GB_Interrupt();
-                GB_Timing(); //時序處理
+
+
+
+
             }
             device_maybe_locking = false;
         }
+
         public void GB_init()
         {
+
             r_PC = 0x100;
             r_SP = 0xFFFF;
             r_H = 0x01; r_L = 0x4D;
@@ -200,6 +217,7 @@ namespace AprEmu.GB
             GB_MEM[reg_WX_addr] = 0x00;
             GB_MEM[reg_IE_addr] = 0x00;
         }
+
         private void GB_Timing()
         {
             #region div
@@ -222,6 +240,9 @@ namespace AprEmu.GB
                 GB_LCD_trick += Cpu_cycles;
                 if (GB_LCD_trick >= 456)//完成一條線與H-blank
                 {
+                    GB_LCD_trick -= 456; //完成一條scanline周期,重置累加
+
+                    if ((++GB_MEM[reg_LY_addr]) >= 154) GB_MEM[reg_LY_addr] = 0;
 
                     #region LY 跟 LYC 比較觸發中斷處理
 
@@ -237,9 +258,10 @@ namespace AprEmu.GB
                         GB_MEM[reg_STAT_addr] &= 0xFB;
                     #endregion
 
-                    GB_LCD_trick -= 456; //完成一條scanline周期,重置累加
+ 
 
-                    if ((++GB_MEM[reg_LY_addr]) >= 154) GB_MEM[reg_LY_addr] -= 154;
+
+                    
 
                     GB_MEM_w8(reg_LY_addr, GB_MEM[reg_LY_addr]);
                     if (GB_MEM[reg_LY_addr] == 144)

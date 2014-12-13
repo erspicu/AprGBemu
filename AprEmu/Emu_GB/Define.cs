@@ -12,10 +12,16 @@
         GB_btn_DOWN = 8
     }
 
+    public enum ScreenPalette
+    {
+        DarkWhite = 0 ,
+        ClassicGreen = 1
+    }
+
     public partial class Apr_GB
     {
         //cpu register & flag
-        public enum Flag_Status
+        private enum Flag_Status
         {
             clear = 0,
             set = 1,
@@ -44,6 +50,6 @@
         const ushort reg_IE_addr = 0xFFFF; // Interrupt Enable
 
         // GameBoy bootstrap ROM 
-        private byte[] BootStrap_DMG = new byte[256];
+        byte[] BootStrap_DMG = new byte[256];
     }
 }

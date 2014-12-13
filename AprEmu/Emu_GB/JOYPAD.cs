@@ -6,15 +6,13 @@ namespace AprEmu.GB
 
     public partial class Apr_GB
     {
-        public Dictionary<int, KeyMap> GB_KeyMAP = new Dictionary<int, KeyMap>();
+       
         byte gbPin14 = 0xff;
         byte gbPin15 = 0xff;
         //a:A s:B z:START x:SELECT 大小寫無分
-        public void GB_JoyPad_KeyDown(int key)
+        public void GB_JoyPad_KeyDown(KeyMap key)
         {
-            if (!GB_KeyMAP.ContainsKey(key)) 
-                return;
-            switch (GB_KeyMAP[key])
+            switch (key)
             {
                 case KeyMap.GB_btn_A:
                     gbPin15 &= 0xfE;
@@ -50,11 +48,11 @@ namespace AprEmu.GB
                     break;
             }
         }
-        public void GB_JoyPad_KeyUp(int key)
+        public void GB_JoyPad_KeyUp(KeyMap key)
         {
-            if (!GB_KeyMAP.ContainsKey(key))
-                return;
-            switch (GB_KeyMAP[key])
+            //if (!GB_KeyMAP.ContainsKey(key))
+            //return;
+            switch (key)// (GB_KeyMAP[key])
             {
                 case KeyMap.GB_btn_A:
                     gbPin15 |= 1;

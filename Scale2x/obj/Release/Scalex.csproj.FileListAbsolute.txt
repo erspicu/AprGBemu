@@ -1,0 +1,4 @@
+C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\Scale2x\bin\Release\Scale2x.dll
+C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\Scale2x\bin\Release\Scale2x.pdb
+C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\Scale2x\obj\Release\Scale2x.dll
+C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\Scale2x\obj\Release\Scale2x.pdb

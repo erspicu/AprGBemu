@@ -6,6 +6,10 @@ namespace AprEmu.GB
 
         byte[][] GB_SwitchableRAM = new byte[31][];
 
+        byte pal_bg = 0;
+        byte pal_obj0 = 0;
+        byte pal_obj1 = 0;
+
         private byte GB_MEM_r8(ushort address)
         {
             if (address <= 0xFF)
@@ -79,18 +83,27 @@ namespace AprEmu.GB
                 {
                     background_update = true;
 
-                    if (address >= 0x9800 && address <= 0x9bff && v != GB_MEM[address])
+                    if (address >= 0x9800 && address <= 0x9bff)
+                    {
+                        Buffer_Background0_t0_update[address - 0x9800] = 0;
+                        Buffer_Background0_t1_update[address - 0x9800] = 0;
                         map0_update = true;
-                    else if (address >= 0x9c00 && address <= 0x9fff && v != GB_MEM[address])
+                    }
+                    else if (address >= 0x9c00 && address <= 0x9fff)
+                    {
+                        Buffer_Background1_t0_update[address - 0x9c00] = 0;
+                        Buffer_Background1_t1_update[address - 0x9c00] = 0;
                         map1_update = true;
-
-                    if (address >= 0x8000 && address <= 0x97ff )
+                    }
+                    if (address >= 0x8000 && address <= 0x97ff)
+                    {
+                        title_update_mark[(address - 0x8000) >> 4] = 0;
                         title_update = true;
+                    }
 
                     GB_MEM[address] = v;
                     return;
                 }
-
                 return;
             }
             if (address < 0xC000) //需實作更多MBC完整特性
@@ -158,24 +171,27 @@ namespace AprEmu.GB
                     break;
 
                 case reg_OBP0_addr:
-                    Palette_obj_0[0] = GB_Color_Palette[v & 3];
-                    Palette_obj_0[1] = GB_Color_Palette[(v & 0xC) >> 2];
-                    Palette_obj_0[2] = GB_Color_Palette[(v & 0x30) >> 4];
-                    Palette_obj_0[3] = GB_Color_Palette[(v & 0xC0) >> 6];
+                    pal_obj0 = v;
+                    Palette_obj_0[0] = GB_Color_Palette_use[v & 3];
+                    Palette_obj_0[1] = GB_Color_Palette_use[(v & 0xC) >> 2];
+                    Palette_obj_0[2] = GB_Color_Palette_use[(v & 0x30) >> 4];
+                    Palette_obj_0[3] = GB_Color_Palette_use[(v & 0xC0) >> 6];
                     break;
 
                 case reg_OBP1_addr:
-                    Palette_obj_1[0] = GB_Color_Palette[v & 3];
-                    Palette_obj_1[1] = GB_Color_Palette[(v & 0xC) >> 2];
-                    Palette_obj_1[2] = GB_Color_Palette[(v & 0x30) >> 4];
-                    Palette_obj_1[3] = GB_Color_Palette[(v & 0xC0) >> 6];
+                    pal_obj1 = v;
+                    Palette_obj_1[0] = GB_Color_Palette_use[v & 3];
+                    Palette_obj_1[1] = GB_Color_Palette_use[(v & 0xC) >> 2];
+                    Palette_obj_1[2] = GB_Color_Palette_use[(v & 0x30) >> 4];
+                    Palette_obj_1[3] = GB_Color_Palette_use[(v & 0xC0) >> 6];
                     break;
 
                 case reg_BGP_addr:
-                    Palette_bgp[0] = GB_Color_Palette[v & 3];
-                    Palette_bgp[1] = GB_Color_Palette[(v & 0xC) >> 2];
-                    Palette_bgp[2] = GB_Color_Palette[(v & 0x30) >> 4];
-                    Palette_bgp[3] = GB_Color_Palette[(v & 0xC0) >> 6];
+                    pal_bg = v;
+                    Palette_bgp[0] = GB_Color_Palette_use[v & 3];
+                    Palette_bgp[1] = GB_Color_Palette_use[(v & 0xC) >> 2];
+                    Palette_bgp[2] = GB_Color_Palette_use[(v & 0x30) >> 4];
+                    Palette_bgp[3] = GB_Color_Palette_use[(v & 0xC0) >> 6];
                     break;
 
                 case reg_LCDC_addr:

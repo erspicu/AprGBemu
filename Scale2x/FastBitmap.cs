@@ -6,10 +6,29 @@ using System.Drawing.Imaging;
 
 //add SetPixelByGray method by erspicu_brox ;
 //¦³¨Ç­×§ï 
-namespace BitmapProcessing
+namespace BitmapProcessingScalex
 {
-    unsafe public class FastBitmap
+    unsafe public struct FastBitmap
     {
+
+        private Bitmap workingBitmap;// = null;
+        private int width;//= 0;
+        private BitmapData bitmapData;// = null;
+        private Byte* pBase;//= null;
+        private PixelData* pixelData;// = null;
+
+        public FastBitmap(ref Bitmap inputBitmap)
+        {
+
+            workingBitmap = null;
+            width = 0;
+            bitmapData  = null;
+            pBase = null;
+            pixelData  = null; 
+
+            workingBitmap = inputBitmap;
+        }
+
         private struct PixelData
         {
             public byte blue;
@@ -17,10 +36,6 @@ namespace BitmapProcessing
             public byte red;
             public byte alpha;
 
-            /*public override string ToString()
-            {
-                return "(" + alpha.ToString() + ", " + red.ToString() + ", " + green.ToString() + ", " + blue.ToString() + ")";
-            }*/
         }
 
         private struct PixelDataInt
@@ -28,60 +43,21 @@ namespace BitmapProcessing
             public uint ColorValue;
         }
 
-
-        private Bitmap workingBitmap = null;
-        private int width = 0;
-        private BitmapData bitmapData = null;
-        private Byte* pBase = null;
-
-        public FastBitmap(Bitmap inputBitmap)
-        {
-            workingBitmap = inputBitmap;
-        }
-
         public void LockImage()
         {
             Rectangle bounds = new Rectangle(Point.Empty, workingBitmap.Size);
-
             width = (int)(bounds.Width * sizeof(PixelData));
             if (width % 4 != 0) width = 4 * (width / 4 + 1);
-
-            //Lock Image
             bitmapData = workingBitmap.LockBits(bounds, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             pBase = (Byte*)bitmapData.Scan0.ToPointer();
         }
-
-        private PixelData* pixelData = null;
-
-        /*public Color GetPixel(int x, int y)
-        {
-            pixelData = (PixelData*)(pBase + y * width + x * sizeof(PixelData));
-            return Color.FromArgb(pixelData->alpha, pixelData->red, pixelData->green, pixelData->blue);
-        }*/
-
-        /*public Color GetPixelNext()
-        {
-            pixelData++;
-            return Color.FromArgb(pixelData->alpha, pixelData->red, pixelData->green, pixelData->blue);
-        }*/
 
         public void SetPixelByRGBValue(int x, int y, uint v)
         {
             try
             {
                 PixelDataInt* data = (PixelDataInt*)(pBase + y * width + x * sizeof(PixelDataInt));
-
                 data->ColorValue = v;
-                /*data->alpha = 255;
-                data->red = (byte)((v & 0xff0000) >> 16);
-                data->green = (byte)((v & 0xff00) >> 8);
-                data->blue = (byte)(v & 0xff);*/
-
-                /*PixelData* data = (PixelData*)(pBase + y * width + x * sizeof(PixelData));
-                data->alpha = 255;
-                data->red = (byte)((v & 0xff0000) >> 16);
-                data->green = (byte)((v & 0xff00) >> 8);
-                data->blue = (byte)(v & 0xff);*/
             }
             catch
             {
@@ -109,6 +85,13 @@ namespace BitmapProcessing
             data->green = color.G;
             data->blue = color.B;
         }
+
+        public Color GetPixel(int x, int y)
+        {
+            PixelDataInt* data = (PixelDataInt*)(pBase + y * width + x * sizeof(PixelData));
+            return Color.FromArgb((int)data->ColorValue);
+        }
+
 
         public void UnlockImage()
         {

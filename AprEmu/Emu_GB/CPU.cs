@@ -9,8 +9,6 @@ namespace AprEmu.GB
         //相當長的code...以後會再提出解析opcode來decode處理極少程式碼行數版本
         private void GB_CPU_exec()
         {
-
-
             byte opcode = GB_MEM_r8(r_PC);
 
 #if debug

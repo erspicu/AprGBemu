@@ -15,25 +15,26 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>1</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
@@ -43,12 +44,39 @@
     <ApplicationIcon>icon\gameboy.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>DLLs\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\SharpDX.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.DirectInput, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLLs\SharpDX.DirectInput.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GBEMU_AboutUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GBEMU_AboutUI.Designer.cs">
+      <DependentUpon>GBEMU_AboutUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GBEMU_ConfigureUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GBEMU_ConfigureUI.Designer.cs">
+      <DependentUpon>GBEMU_ConfigureUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -62,6 +90,13 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="tool\io_tool.cs" />
+    <EmbeddedResource Include="GBEMU_AboutUI.resx">
+      <DependentUpon>GBEMU_AboutUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GBEMU_ConfigureUI.resx">
+      <DependentUpon>GBEMU_ConfigureUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GBEMU_MainUI.resx">
       <DependentUpon>GBEMU_MainUI.cs</DependentUpon>
     </EmbeddedResource>
@@ -70,27 +105,36 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="UI_ClassDiagram.cd" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icon\new-close.png" />
+    <Content Include="icon\new-minize.png" />
+    <Content Include="icon\new-restart.png" />
+    <Content Include="icon\new2close.png" />
+    <Content Include="icon\new2down.png" />
+    <Content Include="icon\new2restart.png" />
+    <None Include="icon\p6.png" />
+    <None Include="icon\p5.png" />
+    <None Include="icon\P4.png" />
+    <None Include="icon\P3.png" />
+    <None Include="icon\P2.png" />
+    <None Include="icon\P1.png" />
+    <None Include="icon\restart.png" />
+    <None Include="icon\SleepStatus.png" />
     <None Include="icon\BtnMinimize.png" />
     <None Include="icon\BtnClose.png" />
+    <None Include="icon\cat.png" />
+    <None Include="icon\dream.png" />
     <Content Include="icon\gameboy.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AprEmu\AprEmu.csproj">
       <Project>{714A3F9F-3325-4496-9E52-BF57EE0DA0F1}</Project>
       <Name>AprEmu</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

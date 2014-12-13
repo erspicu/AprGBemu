@@ -1,29 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="AprGBemu.AprGBemu_MainUI">
-    <Position X="0.5" Y="0.5" Width="3.25" />
+  <Class Name="AprGBemu.GBEMU_AboutUI">
+    <Position X="9.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AVIggoAAoWAAAAAAEAaAEACDAg0CIECAAACRAamAAAE=</HashCode>
+      <HashCode>AAAAAAAAACAAABgAAASAAAACBABoAAAAAEAABABAAAA=</HashCode>
+      <FileName>GBEMU_AboutUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AprGBemu.GBEMU_ConfigureUI">
+    <Position X="6.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>/6AAABAgIaQgUBCABACAABRD5gVEAFAAEiCBASBEDIA=</HashCode>
+      <FileName>GBEMU_ConfigureUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AprGBemu.AprGBemu_MainUI">
+    <Position X="3.25" Y="0.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AFIigoiAISUCEQCAAEeIEISDBg1AYMACCACRASihIgE=</HashCode>
       <FileName>GBEMU_MainUI.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="AprGBemu.Program" Collapsed="true">
-    <Position X="8.5" Y="0.75" Width="1.5" />
+  <Class Name="AprGBemu.Program">
+    <Position X="0.5" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>Program.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AprGBemu.Properties.Resources">
-    <Position X="6.75" Y="1.75" Width="1.5" />
+    <Position X="0.5" Y="3.25" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACCAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+      <HashCode>AAAABBCCAAAAAAAAAAABUAAAAQAgAAAAAAIQAAAAQIA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="AprGBemu.Properties.Settings">
-    <Position X="4" Y="1.75" Width="1.5" />
+  <Class Name="AprGBemu.tool.io_tool">
+    <Position X="0.5" Y="1.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>tool\io_tool.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Microsoft JhengHei" Size="9" />
