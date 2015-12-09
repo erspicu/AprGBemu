@@ -1,4 +1,0 @@
-C:\Users\abraxas\Dropbox\gb_dev\Scale2xFilter\Scale2x\bin\Debug\Scale2x.dll
-C:\Users\abraxas\Dropbox\gb_dev\Scale2xFilter\Scale2x\bin\Debug\Scale2x.pdb
-C:\Users\abraxas\Dropbox\gb_dev\Scale2xFilter\Scale2x\obj\Debug\Scale2x.dll
-C:\Users\abraxas\Dropbox\gb_dev\Scale2xFilter\Scale2x\obj\Debug\Scale2x.pdb
