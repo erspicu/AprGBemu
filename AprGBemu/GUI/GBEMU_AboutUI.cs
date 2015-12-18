@@ -16,11 +16,8 @@ namespace AprGBemu
         public GBEMU_AboutUI()
         {
             InitializeComponent();
-
             VER = AprGBemu_MainUI.GetInstance().Release_Time;
-
             label3.Text = "版本 " + VER.ToLongDateString() + " " + VER.ToShortTimeString();
-
         }
 
         protected static GBEMU_AboutUI instance;

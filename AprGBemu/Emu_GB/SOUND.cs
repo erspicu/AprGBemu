@@ -6,6 +6,15 @@ using System.Text;
 using boolean = System.Boolean; // for java source
 using System.IO;
 
+
+using SharpDX;
+using SharpDX.DirectSound;
+using SharpDX.Multimedia;
+
+using System.Windows.Forms;
+
+using System.Threading;
+
 namespace AprEmu.GB
 {
 
@@ -541,6 +550,21 @@ namespace AprEmu.GB
 
     public class SoundChip
     {
+
+
+
+        public WaveFormat wav;
+        public DirectSound _SoundDevice;
+        public SecondarySoundBuffer buffer;
+        public BufferCapabilities capabilities;
+        public DataStream dataPart2;
+        public DataStream dataPart1;
+        public int numberOfSamples; // = capabilities.BufferBytes / wav.BlockAlign;
+        public int numSamples;
+
+
+        // = new byte[numSamples];
+
         /** The DataLine for outputting the sound */
         //SourceDataLine soundLine;
         public SquareWaveGenerator channel1;
@@ -548,6 +572,8 @@ namespace AprEmu.GB
         public VoluntaryWaveGenerator channel3;
         public NoiseGenerator channel4;
         public boolean soundEnabled = true;
+
+
 
         /** If true, channel is enabled */
         boolean channel1Enable = true, channel2Enable = true,
@@ -560,57 +586,74 @@ namespace AprEmu.GB
         int bufferLengthMsec = 400; //ORG 200
 
         /** Initialize sound emulation, and allocate sound hardware */
-        public SoundChip()
+        public SoundChip(IntPtr shandle)
         {
             channel1 = new SquareWaveGenerator(sampleRate);
             channel2 = new SquareWaveGenerator(sampleRate);
             channel3 = new VoluntaryWaveGenerator(sampleRate);
             channel4 = new NoiseGenerator(sampleRate);
 
-#if sound
-            sw = File.OpenWrite(@"c:\log\snd.raw");
-            bw = new BinaryWriter(sw);
-#endif
+
+            // MessageBox.Show(shandle.ToString());
+
+            _SoundDevice = new DirectSound();
+            _SoundDevice.SetCooperativeLevel(shandle, CooperativeLevel.Normal);
+            wav = new WaveFormat(48000, 8, 2);
+            SoundBufferDescription des = new SoundBufferDescription();
+            des.Format = wav;
+            des.BufferBytes =  (int)(48000 * 2 * 0.2);
+            des.Flags = BufferFlags.ControlVolume | BufferFlags.ControlFrequency | BufferFlags.ControlPan | BufferFlags.Software;
+            buffer = new SecondarySoundBuffer(_SoundDevice, des);
+            capabilities = buffer.Capabilities;
+            numberOfSamples = capabilities.BufferBytes / wav.BlockAlign;
+
+            numSamples =  (sampleRate / 28) & 0xFFFE;
+
+            
+            
+
         }
 
-        /** Initialize sound hardware if available */
 
-        /** Adds a single frame of sound data to the buffer */
+        List<byte> sbuffer = new List<byte>();
 
-#if sound
-        BinaryWriter bw;
-        Stream sw;
-#endif 
+        int count = 0;
+
         public void outputSound()
         {
             if (soundEnabled)
             {
-                int numSamples;
 
-                //need fix
-                //numSamples = 1024;
-                //if (sampleRate / 28 >= soundLine.available() * 2) {
-                // numSamples = soundLine.available() * 2;
-                //} else {
-                // numSamples = (sampleRate / 28) & 0xFFFE;
-                // }
+               // MessageBox.Show(numSamples.ToString());
 
-                numSamples = (sampleRate / 28) & 0xFFFE;
+                byte[] buf = new byte[numSamples]; //1714
 
-                byte[] b = new byte[numSamples];
-                if (channel1Enable) channel1.play(b, numSamples / 2, 0);
-                if (channel2Enable) channel2.play(b, numSamples / 2, 0);
-                if (channel3Enable) channel3.play(b, numSamples / 2, 0);
-                if (channel4Enable) channel4.play(b, numSamples / 2, 0);
-                //soundLine.write(b, 0, numSamples);
-
-#if sound
-                bw.Write(b);
-                bw.Flush();
-#endif
-                // Console.WriteLine("zzz");
+                if (channel1Enable) channel1.play(buf, numSamples / 2, 0);
+                if (channel2Enable) channel2.play(buf, numSamples / 2, 0);
+                if (channel3Enable) channel3.play(buf, numSamples / 2, 0);
+                if (channel4Enable) channel4.play(buf, numSamples / 2, 0);
 
 
+
+
+                //---------
+                for (int i = 0; i < numSamples; i++)               
+                    sbuffer.Add(buf[i]);
+                
+                if (sbuffer.Count >=  19200 ) //20568
+                {
+                    //Console.WriteLine(sbuffer.Count);
+                    dataPart1 = buffer.Lock(0, capabilities.BufferBytes, LockFlags.EntireBuffer, out dataPart2);
+                    for (int n = 0; n < numberOfSamples; n++)
+                    {
+                        dataPart1.Write((byte)(((byte)(sbuffer[n * 2] + 128)) >> 1));
+                        dataPart1.Write((byte)(((byte)(sbuffer[n * 2 + 1] + 128)) >> 1));
+                    }
+                    buffer.Unlock(dataPart1, dataPart2);
+                    buffer.Play(0, PlayFlags.None);
+
+                    sbuffer.Clear();
+                }
             }
         }
 

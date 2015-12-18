@@ -66,6 +66,14 @@
             set = 1,
         }
 
+        //filter type
+        const int filter_scalex = 0;
+        const int filter_hqx = 1;
+        const int filter_xbrz = 2;
+
+        
+
+
         //I/O Ports address define (sound &  serial transfer data not supported now)
         const ushort reg_P1_addr = 0xFF00; //joy pad info
         const ushort reg_DIV_addr = 0xFF04;// Divider Register

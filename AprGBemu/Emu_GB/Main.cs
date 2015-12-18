@@ -7,10 +7,22 @@ using System.Security.Cryptography;
 using System.Diagnostics;
 using NativeWIN32API;
 
+using hqx_speed;
+using XBRz_speed;
+
+
 namespace AprEmu.GB
 {
     public partial class Apr_GB
     {
+
+
+        public IntPtr handle_sound;
+
+
+        public int filter_use = 0;
+
+        public bool sound_use = false ;
 
         int flagZ = FlagClear, flagN = FlagClear, flagH = FlagClear, flagC = FlagClear;
 
@@ -72,7 +84,10 @@ namespace AprEmu.GB
 
             StopWatch.Restart();
 
-            soundChip = new SoundChip();
+            HS_HQ.initTable();
+            HS_XBRz.initTable();
+
+            soundChip = new SoundChip( handle_sound );
 
 
             GB_RomPack = rom_bytes;
@@ -334,6 +349,7 @@ namespace AprEmu.GB
             switch (width)
             {
                 case 960: NativeGDI.initHighSpeed(Screen_Panel, width, height, speed_buffer_6x, 0, 0); break;
+                case 800: NativeGDI.initHighSpeed(Screen_Panel, width, height, speed_buffer_5x, 0, 0); break;
                 case 640: NativeGDI.initHighSpeed(Screen_Panel, width, height, speed_buffer_4x, 0, 0); break;
                 case 480: NativeGDI.initHighSpeed(Screen_Panel, width, height, speed_buffer_3x, 0, 0); break;
                 case 320: NativeGDI.initHighSpeed(Screen_Panel, width, height, speed_buffer_2x, 0, 0); break;
@@ -665,7 +681,8 @@ namespace AprEmu.GB
                     if (GB_MEM[reg_LY_addr] == 144)
                     {
 
-                        soundChip.outputSound();
+                        if(sound_use)
+                            soundChip.outputSound();
 
                         GB_GPU_Model_1();
                         frame_fps_count++;
@@ -675,8 +692,10 @@ namespace AprEmu.GB
                         //  會有些許的小誤差,但幾乎沒影響.
 
                         if (LimitFPS)
-                            while (StopWatch.Elapsed.TotalSeconds < 0.0167)
+                            while (StopWatch.Elapsed.TotalSeconds < 0.01674) //0.0167
                                 Thread.Sleep(0);
+
+                        
 
                         StopWatch.Restart();
 

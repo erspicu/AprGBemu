@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-
 using AprEmu.GB;
 
 namespace AprGBemu
@@ -39,6 +38,8 @@ namespace AprGBemu
                 AprGBemu_MainUI.GetInstance().AppConfigure["ScreenSize"] = "3";
             else if (radioButtonX4.Checked)
                 AprGBemu_MainUI.GetInstance().AppConfigure["ScreenSize"] = "4";
+            else if (radioButtonX5.Checked)
+                AprGBemu_MainUI.GetInstance().AppConfigure["ScreenSize"] = "5";
             else
                 AprGBemu_MainUI.GetInstance().AppConfigure["ScreenSize"] = "6";
 
@@ -66,6 +67,24 @@ namespace AprGBemu
             if (LimitFPS_checkBox.Checked)
                 AprGBemu_MainUI.GetInstance().AppConfigure["LimitFPS"] = "1";
 
+            AprGBemu_MainUI.GetInstance().AppConfigure["Sound"] = "0";
+            if (Sound_checkBox.Checked)
+                AprGBemu_MainUI.GetInstance().AppConfigure["Sound"] = "1";
+
+            if (scalex_radioButton.Checked)
+            {
+                AprGBemu_MainUI.GetInstance().AppConfigure["VideoFilter"] = "scalex";
+            }
+            else if (hqx_radioButton.Checked)
+            {
+                AprGBemu_MainUI.GetInstance().AppConfigure["VideoFilter"] = "hqx";
+            }
+            else//xbrz
+            {
+                AprGBemu_MainUI.GetInstance().AppConfigure["VideoFilter"] = "xbrz";
+            }
+
+
             AprGBemu_MainUI.GetInstance().AppConfigure["CaptureScreenPath"] = screen_path.Text;
             AprGBemu_MainUI.GetInstance().key_A = key_A;
             AprGBemu_MainUI.GetInstance().key_B = key_B;
@@ -76,11 +95,12 @@ namespace AprGBemu
             AprGBemu_MainUI.GetInstance().key_UP = key_UP;
             AprGBemu_MainUI.GetInstance().key_DOWN = key_DOWN;
 
-            if (AprGBemu_MainUI.GetInstance().AppConfigure["ScreenPalette"] == "DMG")
-                AprGBemu_MainUI.GetInstance().AppConfigure["HardwareType"] = ((int)gb_palette).ToString();
+            if (radioButton_0.Checked)
+                AprGBemu_MainUI.GetInstance().AppConfigure["ScreenPalette"] = "0";
+            else
+                AprGBemu_MainUI.GetInstance().AppConfigure["ScreenPalette"] = "1";
 
             AprGBemu_MainUI.GetInstance().Configure_Write();
-
             AprGBemu_MainUI.GetInstance().UI_Restart_btn_MouseClick(null, null);
 
         }
@@ -248,7 +268,6 @@ namespace AprGBemu
 
                 GB_KeyMAP_joypad_config[uid + "," + joypad_RIGHT.Text + "," + raw_id + "," + value] = KeyMap.GB_btn_RIGHT;
             }
-
         }
 
         private string JoyPadWayName(string xy_name, int value)
@@ -361,8 +380,30 @@ namespace AprGBemu
                 case "4":
                     radioButtonX4.Checked = true;
                     break;
+                case "5":
+                    radioButtonX5.Checked = true;
+                    break;
                 case "6":
                     radioButtonX6.Checked = true;
+                    break;
+            }
+
+
+            switch (AprGBemu_MainUI.GetInstance().AppConfigure["VideoFilter"])
+            {
+                case "scalex":
+                    radioButtonX5.Checked = false;
+                    radioButtonX5.Enabled = false;
+                    scalex_radioButton.Checked = true;
+                    break;
+                case "hqx":
+                    radioButtonX5.Checked = false;
+                    radioButtonX5.Enabled = false;
+                    hqx_radioButton.Checked = true;
+                    break;
+                case "xbrz":
+                    radioButtonX5.Enabled = true;
+                    xbrz_radioButton.Checked = true;
                     break;
             }
 
@@ -371,9 +412,14 @@ namespace AprGBemu
             else
                 LimitFPS_checkBox.Checked = false;
 
+
+            if (AprGBemu_MainUI.GetInstance().AppConfigure["Sound"] == "1")
+                Sound_checkBox.Checked = true;
+            else
+                Sound_checkBox.Checked = false;
+
             screen_path.Text = AprGBemu_MainUI.GetInstance().AppConfigure["CaptureScreenPath"];
 
-            //需要繼續完成的設定項目
             textBox_A.Text = ((Keys)int.Parse(AprGBemu_MainUI.GetInstance().AppConfigure["key_A"])).ToString();
             textBox_B.Text = ((Keys)int.Parse(AprGBemu_MainUI.GetInstance().AppConfigure["key_B"])).ToString();
             textBox_SELECT.Text = ((Keys)int.Parse(AprGBemu_MainUI.GetInstance().AppConfigure["key_SELECT"])).ToString();
@@ -511,7 +557,6 @@ namespace AprGBemu
                     key_RIGHT = e.KeyValue;
                     break;
             }
-
         }
 
         private void textBox_KeyConfig_MouseClick(object sender, MouseEventArgs e)
@@ -532,6 +577,24 @@ namespace AprGBemu
                 case "radioButton_1":
                     gb_palette = ScreenPalette.ClassicGreen;
                     break;
+            }
+        }
+
+        private void xbrz_radioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (xbrz_radioButton.Checked)
+            {
+                radioButtonX5.Enabled = true;
+            }
+            else
+            {
+                radioButtonX5.Enabled = false;
+
+                if (radioButtonX5.Checked)
+                {
+                    radioButtonX5.Checked = false;
+                    radioButtonX4.Checked = true;
+                }
             }
         }
     }

@@ -33,6 +33,8 @@ namespace AprGBemu
 
 
 
+
+
         public AprGBemu_MainUI()
         {
             InitializeComponent();
@@ -40,6 +42,9 @@ namespace AprGBemu
             Configure_Read();
             GB_init_KeyMap();
             Release_Time = VersionTime();
+
+
+
 
         }
 
@@ -98,7 +103,9 @@ namespace AprGBemu
                 AppConfigure["joypad_LEFT"] = "";
                 AppConfigure["joypad_RIGHT"] = "";
                 AppConfigure["BootStrap"] = "";
-                AppConfigure["HardwareType"] = "DMF";
+                AppConfigure["HardwareType"] = "DMG";
+                AppConfigure["VideoFilter"] = "scalex";
+                AppConfigure["Sound"] = "0";
 
                 Configure_Write();
                 return;
@@ -257,6 +264,21 @@ namespace AprGBemu
                 gb_emu = null;
                 GC.Collect();
             }
+
+
+            if (AppConfigure["VideoFilter"] == "scalex")
+            {
+                gb_machine.filter_use = 0;
+            }
+            else if (AppConfigure["VideoFilter"] == "hqx")
+            {
+                gb_machine.filter_use = 1;
+            }
+            else 
+            {
+                gb_machine.filter_use = 2;
+            }
+
             gb_machine.GB_ScreenSize = int.Parse(AppConfigure["ScreenSize"]);
             gb_machine.LimitFPS = UILimitFPS;
 
@@ -274,7 +296,16 @@ namespace AprGBemu
                 gb_machine.run_bootstrap = false;
 
 
+            if (AppConfigure["Sound"] == "1")
+                gb_machine.sound_use = true;
+            else
+                gb_machine.sound_use = false;
+
+
             gb_machine.ConfigureScreenColor(gb_palette);
+
+            gb_machine.handle_sound = this.Handle;
+
             LoadRom();
 
         }
@@ -520,7 +551,26 @@ namespace AprGBemu
                     gb_machine.bind_Screen(ref Screen_Panel, UI_LCD_panel.Handle, 0, 0, UI_LCD_panel.Width, UI_LCD_panel.Height);
                     break;
 
-
+                case "5" :
+                    UI_LCD_panel.Width = 800; // 256 - 384
+                    UI_LCD_panel.Height = 720; // 224 - 352
+                    this.Width = 280 + 544;
+                    this.Height = 280 + 495;
+                    UI_Close_hide.Location = new Point(216 + 544, 6);
+                    UI_Close_btn.Location = new Point(246 + 544, 6);
+                    UI_AppName.Location = new Point(12, 264 + 496);
+                    FPS_inf.Location = new Point(214 + 544 , 264 + 495);
+                    try
+                    {
+                        gb_machine.GB_ScreenSize = 5;
+                        gb_machine.Screen_loc = new Point(0, 0);
+                    }
+                    catch
+                    {
+                    }
+                    Screen_Panel = UI_LCD_panel.CreateGraphics();
+                    gb_machine.bind_Screen(ref Screen_Panel, UI_LCD_panel.Handle, 0, 0, UI_LCD_panel.Width, UI_LCD_panel.Height);
+                    break;
                 case "6":
                     UI_LCD_panel.Width = 960; // 256 - 384
                     UI_LCD_panel.Height = 864; // 224 - 352

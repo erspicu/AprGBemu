@@ -2,9 +2,11 @@ C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\bin\Release\AprGBemu.exe
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\bin\Release\AprGBemu.pdb
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\bin\Release\ICSharpCode.SharpZipLib.dll
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\bin\Release\SharpDX.DirectInput.dll
+C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\bin\Release\SharpDX.DirectSound.dll
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\bin\Release\SharpDX.dll
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\bin\Release\SharpDX.xml
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\bin\Release\SharpDX.DirectInput.xml
+C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\bin\Release\SharpDX.DirectSound.xml
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\obj\x86\Release\AprGBemu.GBEMU_AboutUI.resources
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\obj\x86\Release\AprGBemu.GBEMU_ConfigureUI.resources
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\obj\x86\Release\AprGBemu.GBEMU_InfoUI.resources
@@ -13,4 +15,3 @@ C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\obj\x86\Release\AprGBemu.Prope
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\obj\x86\Release\AprGBemu.csproj.GenerateResource.Cache
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\obj\x86\Release\AprGBemu.exe
 C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\obj\x86\Release\AprGBemu.pdb
-C:\Users\abraxas\Dropbox\gb_dev\AprGBemu\AprGBemu\obj\x86\Release\AprGBemu.csprojResolveAssemblyReference.cache

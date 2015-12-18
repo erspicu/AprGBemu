@@ -72,6 +72,7 @@
             this.radioButton_0 = new System.Windows.Forms.RadioButton();
             this.radioButton_1 = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.radioButtonX5 = new System.Windows.Forms.RadioButton();
             this.radioButtonX6 = new System.Windows.Forms.RadioButton();
             this.radioButtonX4 = new System.Windows.Forms.RadioButton();
             this.radioButtonX3 = new System.Windows.Forms.RadioButton();
@@ -83,12 +84,18 @@
             this.GBradioButton = new System.Windows.Forms.RadioButton();
             this.GBCbootradioButton = new System.Windows.Forms.RadioButton();
             this.GBbootradioButton = new System.Windows.Forms.RadioButton();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.xbrz_radioButton = new System.Windows.Forms.RadioButton();
+            this.hqx_radioButton = new System.Windows.Forms.RadioButton();
+            this.scalex_radioButton = new System.Windows.Forms.RadioButton();
+            this.Sound_checkBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -310,7 +317,7 @@
             this.screen_path.Location = new System.Drawing.Point(298, 56);
             this.screen_path.Name = "screen_path";
             this.screen_path.ReadOnly = true;
-            this.screen_path.Size = new System.Drawing.Size(276, 22);
+            this.screen_path.Size = new System.Drawing.Size(307, 22);
             this.screen_path.TabIndex = 4;
             // 
             // label9
@@ -327,7 +334,7 @@
             // 
             this.choose_dir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.choose_dir.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.choose_dir.Location = new System.Drawing.Point(497, 30);
+            this.choose_dir.Location = new System.Drawing.Point(530, 25);
             this.choose_dir.Name = "choose_dir";
             this.choose_dir.Size = new System.Drawing.Size(75, 23);
             this.choose_dir.TabIndex = 6;
@@ -339,7 +346,7 @@
             // 
             this.Ok_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Ok_btn.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Ok_btn.Location = new System.Drawing.Point(499, 257);
+            this.Ok_btn.Location = new System.Drawing.Point(530, 252);
             this.Ok_btn.Name = "Ok_btn";
             this.Ok_btn.Size = new System.Drawing.Size(75, 23);
             this.Ok_btn.TabIndex = 7;
@@ -536,7 +543,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::AprGBemu.Properties.Resources.p6;
-            this.pictureBox1.Location = new System.Drawing.Point(426, 208);
+            this.pictureBox1.Location = new System.Drawing.Point(448, 216);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(72, 72);
@@ -581,22 +588,34 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.radioButtonX5);
             this.groupBox4.Controls.Add(this.radioButtonX6);
             this.groupBox4.Controls.Add(this.radioButtonX4);
             this.groupBox4.Controls.Add(this.radioButtonX3);
             this.groupBox4.Controls.Add(this.radioButtonX2);
             this.groupBox4.Controls.Add(this.radioButtonX1);
-            this.groupBox4.Location = new System.Drawing.Point(435, 84);
+            this.groupBox4.Location = new System.Drawing.Point(430, 84);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(113, 80);
+            this.groupBox4.Size = new System.Drawing.Size(90, 80);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "畫面大小";
             // 
+            // radioButtonX5
+            // 
+            this.radioButtonX5.AutoSize = true;
+            this.radioButtonX5.Location = new System.Drawing.Point(46, 39);
+            this.radioButtonX5.Name = "radioButtonX5";
+            this.radioButtonX5.Size = new System.Drawing.Size(38, 16);
+            this.radioButtonX5.TabIndex = 16;
+            this.radioButtonX5.TabStop = true;
+            this.radioButtonX5.Text = "x 5";
+            this.radioButtonX5.UseVisualStyleBackColor = true;
+            // 
             // radioButtonX6
             // 
             this.radioButtonX6.AutoSize = true;
-            this.radioButtonX6.Location = new System.Drawing.Point(6, 61);
+            this.radioButtonX6.Location = new System.Drawing.Point(46, 61);
             this.radioButtonX6.Name = "radioButtonX6";
             this.radioButtonX6.Size = new System.Drawing.Size(38, 16);
             this.radioButtonX6.TabIndex = 4;
@@ -607,7 +626,7 @@
             // radioButtonX4
             // 
             this.radioButtonX4.AutoSize = true;
-            this.radioButtonX4.Location = new System.Drawing.Point(46, 39);
+            this.radioButtonX4.Location = new System.Drawing.Point(46, 17);
             this.radioButtonX4.Name = "radioButtonX4";
             this.radioButtonX4.Size = new System.Drawing.Size(38, 16);
             this.radioButtonX4.TabIndex = 3;
@@ -618,7 +637,7 @@
             // radioButtonX3
             // 
             this.radioButtonX3.AutoSize = true;
-            this.radioButtonX3.Location = new System.Drawing.Point(46, 17);
+            this.radioButtonX3.Location = new System.Drawing.Point(6, 61);
             this.radioButtonX3.Name = "radioButtonX3";
             this.radioButtonX3.Size = new System.Drawing.Size(38, 16);
             this.radioButtonX3.TabIndex = 2;
@@ -718,11 +737,69 @@
             this.GBbootradioButton.Text = "經典GB BootStrap";
             this.GBbootradioButton.UseVisualStyleBackColor = true;
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.xbrz_radioButton);
+            this.groupBox6.Controls.Add(this.hqx_radioButton);
+            this.groupBox6.Controls.Add(this.scalex_radioButton);
+            this.groupBox6.Location = new System.Drawing.Point(525, 84);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(80, 80);
+            this.groupBox6.TabIndex = 16;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Filter";
+            // 
+            // xbrz_radioButton
+            // 
+            this.xbrz_radioButton.AutoSize = true;
+            this.xbrz_radioButton.Location = new System.Drawing.Point(6, 55);
+            this.xbrz_radioButton.Name = "xbrz_radioButton";
+            this.xbrz_radioButton.Size = new System.Drawing.Size(52, 16);
+            this.xbrz_radioButton.TabIndex = 2;
+            this.xbrz_radioButton.TabStop = true;
+            this.xbrz_radioButton.Text = "XBRz";
+            this.xbrz_radioButton.UseVisualStyleBackColor = true;
+            this.xbrz_radioButton.CheckedChanged += new System.EventHandler(this.xbrz_radioButton_CheckedChanged);
+            // 
+            // hqx_radioButton
+            // 
+            this.hqx_radioButton.AutoSize = true;
+            this.hqx_radioButton.Location = new System.Drawing.Point(6, 35);
+            this.hqx_radioButton.Name = "hqx_radioButton";
+            this.hqx_radioButton.Size = new System.Drawing.Size(47, 16);
+            this.hqx_radioButton.TabIndex = 1;
+            this.hqx_radioButton.TabStop = true;
+            this.hqx_radioButton.Text = "HQX";
+            this.hqx_radioButton.UseVisualStyleBackColor = true;
+            // 
+            // scalex_radioButton
+            // 
+            this.scalex_radioButton.AutoSize = true;
+            this.scalex_radioButton.Location = new System.Drawing.Point(6, 15);
+            this.scalex_radioButton.Name = "scalex_radioButton";
+            this.scalex_radioButton.Size = new System.Drawing.Size(55, 16);
+            this.scalex_radioButton.TabIndex = 0;
+            this.scalex_radioButton.TabStop = true;
+            this.scalex_radioButton.Text = "ScaleX";
+            this.scalex_radioButton.UseVisualStyleBackColor = true;
+            // 
+            // Sound_checkBox
+            // 
+            this.Sound_checkBox.AutoSize = true;
+            this.Sound_checkBox.Location = new System.Drawing.Point(430, 175);
+            this.Sound_checkBox.Name = "Sound_checkBox";
+            this.Sound_checkBox.Size = new System.Drawing.Size(116, 16);
+            this.Sound_checkBox.TabIndex = 17;
+            this.Sound_checkBox.Text = "聲音輸出(實驗性)";
+            this.Sound_checkBox.UseVisualStyleBackColor = true;
+            // 
             // GBEMU_ConfigureUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(578, 285);
+            this.ClientSize = new System.Drawing.Size(612, 286);
+            this.Controls.Add(this.Sound_checkBox);
+            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -752,6 +829,8 @@
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -814,5 +893,11 @@
         private System.Windows.Forms.RadioButton GBCbootradioButton;
         private System.Windows.Forms.RadioButton GBbootradioButton;
         private System.Windows.Forms.RadioButton radioButtonX6;
+        private System.Windows.Forms.RadioButton radioButtonX5;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.RadioButton scalex_radioButton;
+        private System.Windows.Forms.RadioButton xbrz_radioButton;
+        private System.Windows.Forms.RadioButton hqx_radioButton;
+        private System.Windows.Forms.CheckBox Sound_checkBox;
     }
 }

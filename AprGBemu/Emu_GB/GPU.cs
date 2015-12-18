@@ -1,12 +1,13 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-//using hqx; 須要克服效能問題
 using System;
 using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using ScalexFilter;
 using NativeWIN32API;
+using hqx_speed;
+using XBRz_speed;
 
 namespace AprEmu.GB
 {
@@ -41,7 +42,7 @@ namespace AprEmu.GB
 
         // bool cgb_mod = true;
 
-        Bitmap Frame_Screen_Buffer = new Bitmap(160, 144);
+
         //byte[][][] title_sets = new byte[384][][]; 
 
         //記錄 title sets 的各 title 是否更新
@@ -76,6 +77,7 @@ namespace AprEmu.GB
         uint[][] Buffer_Screen_array4xbuffer = new uint[640][];
 
         uint[] speed_buffer_6x = new uint[960 * 864];
+        uint[] speed_buffer_5x = new uint[800 * 720];
         uint[] speed_buffer_4x = new uint[640 * 576];
         uint[] speed_buffer_3x = new uint[480 * 432];
         uint[] speed_buffer_2x = new uint[320 * 288];
@@ -973,19 +975,49 @@ namespace AprEmu.GB
                     }
                     break;
                 case 2:
-                    ScalexTool.toScale2x_dx(Buffer_Screen_array, 160, 144, speed_buffer_2x);
+                    if (filter_use == filter_scalex)
+                        ScalexTool.toScale2x_dx(Buffer_Screen_array, 160, 144, speed_buffer_2x);
+                    else if (filter_use == filter_hqx)
+                        HS_HQ.Scale2(Buffer_Screen_array, 160, 144, speed_buffer_2x);
+                    else
+                        HS_XBRz.ScaleImage2X(Buffer_Screen_array, speed_buffer_2x, 160, 144);
+
                     NativeGDI.DrawImageHighSpeedtoDevice();
                     break;
                 case 3:
-                    ScalexTool.toScale3x_dx(Buffer_Screen_array, 160, 144, speed_buffer_3x);
+                    if (filter_use == filter_scalex)
+                        ScalexTool.toScale3x_dx(Buffer_Screen_array, 160, 144, speed_buffer_3x);
+                    else if (filter_use == filter_hqx)
+                        HS_HQ.Scale3(Buffer_Screen_array, 160, 144, speed_buffer_3x);
+                    else
+                        HS_XBRz.ScaleImage3X(Buffer_Screen_array, speed_buffer_3x, 160, 144);
+
                     NativeGDI.DrawImageHighSpeedtoDevice();
                     break;
                 case 4:
-                    ScalexTool.toScale4x_dx(Buffer_Screen_array, 160, 144, speed_buffer_4x);
+                    if (filter_use == filter_scalex)
+                        ScalexTool.toScale4x_dx(Buffer_Screen_array, 160, 144, speed_buffer_4x);
+                    else if (filter_use == filter_hqx)
+                        HS_HQ.Scale4(Buffer_Screen_array, 160, 144, speed_buffer_4x);
+                    else
+                        HS_XBRz.ScaleImage4X(Buffer_Screen_array, speed_buffer_4x, 160, 144);
+
                     NativeGDI.DrawImageHighSpeedtoDevice();
                     break;
+
+                case 5: //ok
+                    HS_XBRz.ScaleImage5X(Buffer_Screen_array, speed_buffer_5x, 160, 144);
+                    NativeGDI.DrawImageHighSpeedtoDevice();
+                    break;
+
                 case 6:
-                    ScalexTool.toScale6x_dx(Buffer_Screen_array, 160, 144, speed_buffer_6x);
+                    if (filter_use == filter_scalex)
+                        ScalexTool.toScale6x_dx(Buffer_Screen_array, 160, 144, speed_buffer_6x);
+                    else if (filter_use == filter_hqx)
+                        HS_HQ.Scale6(Buffer_Screen_array, 160, 144, speed_buffer_6x);
+                    else
+                        HS_XBRz.ScaleImage6X(Buffer_Screen_array, speed_buffer_6x, 160, 144);
+
                     NativeGDI.DrawImageHighSpeedtoDevice();
                     break;
             }
@@ -998,15 +1030,17 @@ namespace AprEmu.GB
             switch (GB_ScreenSize)
             {
                 case 1: return new Bitmap(160, 144, 160 * 4, PixelFormat.Format32bppArgb, Marshal.UnsafeAddrOfPinnedArrayElement(speed_buffer_1x, 0));
-                case 2: return new Bitmap(160 * 2, 144 * 4, 160 * 2 * 4, PixelFormat.Format32bppArgb, Marshal.UnsafeAddrOfPinnedArrayElement(speed_buffer_2x, 0));
+                case 2: return new Bitmap(160 * 2, 144 * 2, 160 * 2 * 4, PixelFormat.Format32bppArgb, Marshal.UnsafeAddrOfPinnedArrayElement(speed_buffer_2x, 0));
                 case 3: return new Bitmap(160 * 3, 144 * 3, 160 * 3 * 4, PixelFormat.Format32bppArgb, Marshal.UnsafeAddrOfPinnedArrayElement(speed_buffer_3x, 0));
                 case 4: return new Bitmap(160 * 4, 144 * 4, 160 * 4 * 4, PixelFormat.Format32bppArgb, Marshal.UnsafeAddrOfPinnedArrayElement(speed_buffer_4x, 0));
+                case 5: return new Bitmap(160 * 5, 144 * 5, 160 * 5 * 4, PixelFormat.Format32bppArgb, Marshal.UnsafeAddrOfPinnedArrayElement(speed_buffer_5x, 0));
+                case 6: return new Bitmap(160 * 6, 144 * 6, 160 * 6 * 4, PixelFormat.Format32bppArgb, Marshal.UnsafeAddrOfPinnedArrayElement(speed_buffer_6x, 0));
             }
             return null;
         }
 
 
 
-
+ 
     }
 }
