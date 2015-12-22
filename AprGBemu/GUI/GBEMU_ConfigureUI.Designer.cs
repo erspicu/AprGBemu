@@ -67,7 +67,6 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.joypad_A = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.radioButton_0 = new System.Windows.Forms.RadioButton();
             this.radioButton_1 = new System.Windows.Forms.RadioButton();
@@ -89,9 +88,10 @@
             this.hqx_radioButton = new System.Windows.Forms.RadioButton();
             this.scalex_radioButton = new System.Windows.Forms.RadioButton();
             this.Sound_checkBox = new System.Windows.Forms.CheckBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label18 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -116,10 +116,10 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.textBox_A);
-            this.groupBox1.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.groupBox1.Location = new System.Drawing.Point(4, 4);
+            this.groupBox1.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox1.Location = new System.Drawing.Point(4, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(142, 276);
+            this.groupBox1.Size = new System.Drawing.Size(142, 280);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "遊戲按鈕鍵盤對應";
@@ -135,6 +135,7 @@
             this.textBox_RIGHT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_RIGHT.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox_KeyConfig_MouseClick);
             this.textBox_RIGHT.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyConfig_KeyUp);
+            this.textBox_RIGHT.Leave += new System.EventHandler(this.textBox_A_Leave);
             // 
             // textBox_LEFT
             // 
@@ -147,6 +148,7 @@
             this.textBox_LEFT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_LEFT.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox_KeyConfig_MouseClick);
             this.textBox_LEFT.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyConfig_KeyUp);
+            this.textBox_LEFT.Leave += new System.EventHandler(this.textBox_A_Leave);
             // 
             // textBox_DOWN
             // 
@@ -159,6 +161,7 @@
             this.textBox_DOWN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_DOWN.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox_KeyConfig_MouseClick);
             this.textBox_DOWN.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyConfig_KeyUp);
+            this.textBox_DOWN.Leave += new System.EventHandler(this.textBox_A_Leave);
             // 
             // textBox_UP
             // 
@@ -171,6 +174,7 @@
             this.textBox_UP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_UP.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox_KeyConfig_MouseClick);
             this.textBox_UP.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyConfig_KeyUp);
+            this.textBox_UP.Leave += new System.EventHandler(this.textBox_A_Leave);
             // 
             // textBox_START
             // 
@@ -183,6 +187,7 @@
             this.textBox_START.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_START.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox_KeyConfig_MouseClick);
             this.textBox_START.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyConfig_KeyUp);
+            this.textBox_START.Leave += new System.EventHandler(this.textBox_A_Leave);
             // 
             // textBox_SELECT
             // 
@@ -195,6 +200,7 @@
             this.textBox_SELECT.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_SELECT.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox_KeyConfig_MouseClick);
             this.textBox_SELECT.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyConfig_KeyUp);
+            this.textBox_SELECT.Leave += new System.EventHandler(this.textBox_A_Leave);
             // 
             // textBox_B
             // 
@@ -207,10 +213,11 @@
             this.textBox_B.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_B.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox_KeyConfig_MouseClick);
             this.textBox_B.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyConfig_KeyUp);
+            this.textBox_B.Leave += new System.EventHandler(this.textBox_A_Leave);
             // 
             // label8
             // 
-            this.label8.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label8.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label8.Location = new System.Drawing.Point(4, 248);
             this.label8.Name = "label8";
             this.label8.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -220,7 +227,7 @@
             // 
             // label7
             // 
-            this.label7.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label7.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label7.Location = new System.Drawing.Point(4, 216);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -230,7 +237,7 @@
             // 
             // label6
             // 
-            this.label6.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label6.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label6.Location = new System.Drawing.Point(4, 184);
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -240,7 +247,7 @@
             // 
             // label5
             // 
-            this.label5.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label5.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label5.Location = new System.Drawing.Point(4, 152);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -250,7 +257,7 @@
             // 
             // label4
             // 
-            this.label4.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label4.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label4.Location = new System.Drawing.Point(4, 120);
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -260,7 +267,7 @@
             // 
             // label3
             // 
-            this.label3.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label3.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label3.Location = new System.Drawing.Point(4, 88);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -270,7 +277,7 @@
             // 
             // label2
             // 
-            this.label2.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label2.Location = new System.Drawing.Point(4, 56);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -280,7 +287,7 @@
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label1.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label1.Location = new System.Drawing.Point(4, 24);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -299,14 +306,15 @@
             this.textBox_A.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_A.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox_KeyConfig_MouseClick);
             this.textBox_A.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_KeyConfig_KeyUp);
+            this.textBox_A.Leave += new System.EventHandler(this.textBox_A_Leave);
             // 
             // LimitFPS_checkBox
             // 
             this.LimitFPS_checkBox.AutoSize = true;
-            this.LimitFPS_checkBox.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.LimitFPS_checkBox.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.LimitFPS_checkBox.Location = new System.Drawing.Point(298, 12);
             this.LimitFPS_checkBox.Name = "LimitFPS_checkBox";
-            this.LimitFPS_checkBox.Size = new System.Drawing.Size(105, 16);
+            this.LimitFPS_checkBox.Size = new System.Drawing.Size(96, 16);
             this.LimitFPS_checkBox.TabIndex = 3;
             this.LimitFPS_checkBox.Text = "限制 FPS 速度";
             this.LimitFPS_checkBox.UseVisualStyleBackColor = true;
@@ -317,26 +325,26 @@
             this.screen_path.Location = new System.Drawing.Point(298, 56);
             this.screen_path.Name = "screen_path";
             this.screen_path.ReadOnly = true;
-            this.screen_path.Size = new System.Drawing.Size(307, 22);
+            this.screen_path.Size = new System.Drawing.Size(326, 22);
             this.screen_path.TabIndex = 4;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label9.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label9.Location = new System.Drawing.Point(298, 37);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(184, 12);
+            this.label9.Size = new System.Drawing.Size(156, 12);
             this.label9.TabIndex = 5;
-            this.label9.Text = "SHIFT + P 抓取畫面截圖存放處";
+            this.label9.Text = "Shift + p 抓取畫面截圖存放處";
             // 
             // choose_dir
             // 
             this.choose_dir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.choose_dir.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.choose_dir.Location = new System.Drawing.Point(530, 25);
+            this.choose_dir.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.choose_dir.Location = new System.Drawing.Point(526, 26);
             this.choose_dir.Name = "choose_dir";
-            this.choose_dir.Size = new System.Drawing.Size(75, 23);
+            this.choose_dir.Size = new System.Drawing.Size(98, 23);
             this.choose_dir.TabIndex = 6;
             this.choose_dir.Text = "目錄選擇";
             this.choose_dir.UseVisualStyleBackColor = true;
@@ -345,10 +353,10 @@
             // Ok_btn
             // 
             this.Ok_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Ok_btn.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.Ok_btn.Location = new System.Drawing.Point(530, 252);
+            this.Ok_btn.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Ok_btn.Location = new System.Drawing.Point(526, 261);
             this.Ok_btn.Name = "Ok_btn";
-            this.Ok_btn.Size = new System.Drawing.Size(75, 23);
+            this.Ok_btn.Size = new System.Drawing.Size(98, 23);
             this.Ok_btn.TabIndex = 7;
             this.Ok_btn.Text = "確定";
             this.Ok_btn.UseVisualStyleBackColor = true;
@@ -372,10 +380,10 @@
             this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.label17);
             this.groupBox2.Controls.Add(this.joypad_A);
-            this.groupBox2.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.groupBox2.Location = new System.Drawing.Point(150, 4);
+            this.groupBox2.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox2.Location = new System.Drawing.Point(150, 8);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(142, 276);
+            this.groupBox2.Size = new System.Drawing.Size(142, 280);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "遊戲按鈕手把對應";
@@ -452,7 +460,7 @@
             // 
             // label10
             // 
-            this.label10.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label10.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label10.Location = new System.Drawing.Point(4, 248);
             this.label10.Name = "label10";
             this.label10.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -462,7 +470,7 @@
             // 
             // label11
             // 
-            this.label11.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label11.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label11.Location = new System.Drawing.Point(4, 216);
             this.label11.Name = "label11";
             this.label11.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -472,7 +480,7 @@
             // 
             // label12
             // 
-            this.label12.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label12.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label12.Location = new System.Drawing.Point(4, 184);
             this.label12.Name = "label12";
             this.label12.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -482,7 +490,7 @@
             // 
             // label13
             // 
-            this.label13.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label13.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label13.Location = new System.Drawing.Point(4, 152);
             this.label13.Name = "label13";
             this.label13.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -492,7 +500,7 @@
             // 
             // label14
             // 
-            this.label14.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label14.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label14.Location = new System.Drawing.Point(4, 120);
             this.label14.Name = "label14";
             this.label14.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -502,7 +510,7 @@
             // 
             // label15
             // 
-            this.label15.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label15.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label15.Location = new System.Drawing.Point(4, 88);
             this.label15.Name = "label15";
             this.label15.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -512,7 +520,7 @@
             // 
             // label16
             // 
-            this.label16.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label16.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label16.Location = new System.Drawing.Point(4, 56);
             this.label16.Name = "label16";
             this.label16.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -522,7 +530,7 @@
             // 
             // label17
             // 
-            this.label17.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label17.Font = new System.Drawing.Font("PMingLiU", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label17.Location = new System.Drawing.Point(4, 24);
             this.label17.Name = "label17";
             this.label17.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -540,27 +548,16 @@
             this.joypad_A.TabIndex = 0;
             this.joypad_A.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::AprGBemu.Properties.Resources.p6;
-            this.pictureBox1.Location = new System.Drawing.Point(448, 216);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(72, 72);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 12;
-            this.pictureBox1.TabStop = false;
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.radioButton_0);
             this.groupBox3.Controls.Add(this.radioButton_1);
-            this.groupBox3.Location = new System.Drawing.Point(298, 84);
+            this.groupBox3.Location = new System.Drawing.Point(298, 88);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(125, 70);
+            this.groupBox3.Size = new System.Drawing.Size(130, 70);
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "經典GB螢幕顏色";
+            this.groupBox3.Text = "螢幕顏色";
             // 
             // radioButton_0
             // 
@@ -594,9 +591,9 @@
             this.groupBox4.Controls.Add(this.radioButtonX3);
             this.groupBox4.Controls.Add(this.radioButtonX2);
             this.groupBox4.Controls.Add(this.radioButtonX1);
-            this.groupBox4.Location = new System.Drawing.Point(430, 84);
+            this.groupBox4.Location = new System.Drawing.Point(443, 88);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(90, 80);
+            this.groupBox4.Size = new System.Drawing.Size(90, 85);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "畫面大小";
@@ -674,9 +671,9 @@
             this.groupBox5.Controls.Add(this.GBradioButton);
             this.groupBox5.Controls.Add(this.GBCbootradioButton);
             this.groupBox5.Controls.Add(this.GBbootradioButton);
-            this.groupBox5.Location = new System.Drawing.Point(298, 159);
+            this.groupBox5.Location = new System.Drawing.Point(298, 167);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(125, 121);
+            this.groupBox5.Size = new System.Drawing.Size(130, 121);
             this.groupBox5.TabIndex = 15;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "主機類型";
@@ -742,9 +739,9 @@
             this.groupBox6.Controls.Add(this.xbrz_radioButton);
             this.groupBox6.Controls.Add(this.hqx_radioButton);
             this.groupBox6.Controls.Add(this.scalex_radioButton);
-            this.groupBox6.Location = new System.Drawing.Point(525, 84);
+            this.groupBox6.Location = new System.Drawing.Point(538, 88);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(80, 80);
+            this.groupBox6.Size = new System.Drawing.Size(86, 85);
             this.groupBox6.TabIndex = 16;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Filter";
@@ -786,24 +783,42 @@
             // Sound_checkBox
             // 
             this.Sound_checkBox.AutoSize = true;
-            this.Sound_checkBox.Location = new System.Drawing.Point(430, 175);
+            this.Sound_checkBox.Location = new System.Drawing.Point(443, 180);
             this.Sound_checkBox.Name = "Sound_checkBox";
             this.Sound_checkBox.Size = new System.Drawing.Size(116, 16);
             this.Sound_checkBox.TabIndex = 17;
             this.Sound_checkBox.Text = "聲音輸出(實驗性)";
             this.Sound_checkBox.UseVisualStyleBackColor = true;
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(443, 225);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 20);
+            this.comboBox1.TabIndex = 18;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(443, 208);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(53, 12);
+            this.label18.TabIndex = 19;
+            this.label18.Text = "介面語系";
+            // 
             // GBEMU_ConfigureUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(612, 286);
+            this.ClientSize = new System.Drawing.Size(634, 293);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.Sound_checkBox);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.Ok_btn);
             this.Controls.Add(this.choose_dir);
@@ -822,7 +837,6 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -877,7 +891,6 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox joypad_A;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton radioButton_0;
         private System.Windows.Forms.RadioButton radioButton_1;
@@ -899,5 +912,7 @@
         private System.Windows.Forms.RadioButton xbrz_radioButton;
         private System.Windows.Forms.RadioButton hqx_radioButton;
         private System.Windows.Forms.CheckBox Sound_checkBox;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label18;
     }
 }

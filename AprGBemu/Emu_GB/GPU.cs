@@ -763,8 +763,9 @@ namespace AprEmu.GB
                                     }
                                     else
                                     {
-                                        //need fix
-                                        Buffer_Screen_array[x_p][ly] = Palette_obj_use[pixel];
+                                        //need improve
+                                        if (Buffer_Screen_array[x_p][ly] == Palette_bgp[0])
+                                            Buffer_Screen_array[x_p][ly] = Palette_obj_use[pixel];
                                     }
                                 }
                             }
@@ -789,8 +790,9 @@ namespace AprEmu.GB
                                         Buffer_Screen_array[x_p][ly] = Palette_obj_use[pixel];
                                     else
                                     {
-                                        //need fix
-                                        Buffer_Screen_array[x_p][ly] = Palette_obj_use[pixel];
+                                        //need improve
+                                        if (Buffer_Screen_array[x_p][ly] == Palette_bgp[0])
+                                            Buffer_Screen_array[x_p][ly] = Palette_obj_use[pixel];
                                     }
                                 }
                             }
@@ -1041,6 +1043,6 @@ namespace AprEmu.GB
 
 
 
- 
+
     }
 }

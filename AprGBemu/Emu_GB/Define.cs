@@ -37,6 +37,7 @@
         ROM_MBC1 = 0x1,
         ROM_MBC1_RAM = 0x2,
         ROM_MBC1_RAM_BATT = 0x3,
+        
         ROM_MBC2 = 0x5,
         ROM_MBC2_BATT = 0x6,
         ROM_RAM = 0x8,

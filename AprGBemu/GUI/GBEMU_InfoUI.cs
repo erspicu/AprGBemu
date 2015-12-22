@@ -16,7 +16,6 @@ namespace AprGBemu
             InitializeComponent();
         }
 
-
         protected static GBEMU_InfoUI instance;
         public static GBEMU_InfoUI GetInstance()
         {
@@ -32,13 +31,37 @@ namespace AprGBemu
 
         private void GBEMU_InfoUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            this.Hide();
+            // e.Cancel = true;
+            // this.Hide();
         }
 
         private void GBEMU_InfoUI_Shown(object sender, EventArgs e)
         {
-            richTextBox1.Text = AprGBemu_MainUI.GetInstance().ReadCartInfo();
+
+        }
+
+        public void init()
+        {
+            button1.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["ok"];
+            this.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["rom_inf"];
+
+            string inf = AprGBemu_MainUI.GetInstance().ReadCartInfo();
+
+            if (inf == "")
+                return;
+
+
+            List<string> line = inf.Split(new string[] { "\n" }, StringSplitOptions.None).ToList();
+
+            string str = "";
+
+            str += LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["CartridgeTitle"] + " : " + line[0].Remove(0, "Cartridge Title : ".Count()) + "\n";
+            str += LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["CartridgeType"] + " : " + line[1].Remove(0, "Cartridge Type : ".Count()) + "\n";
+            str += LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["CartridgeMBC"] + " : " + line[2].Remove(0, "Cartridge MBC: ".Count()) + "\n";
+            str += LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["CartridgeROM"] + " : " + line[3].Remove(0, "Cartridge ROM Size :  ".Count()) + "\n";
+            str += LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["CartridgeRAM"] + " : " + line[4].Remove(0, "Cartridge RAM Size : ".Count()) + "\n";
+
+            richTextBox1.Text = str;
         }
 
     }

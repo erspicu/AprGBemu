@@ -7,7 +7,7 @@ namespace AprEmu.GB
     public partial class Apr_GB
     {
 
-        byte[][] GB_SwitchableRAM = new byte[31][];
+        byte[] GB_SwitchableRAM = new byte[4 * 8 * 1024];
 
         byte pal_bg = 0;
         byte pal_obj0 = 0;
@@ -16,6 +16,9 @@ namespace AprEmu.GB
         byte new_DMA_So_hi = 0, new_DMA_So_lo = 0, new_DMA_De_hi = 0, new_DMA_De_lo = 0, new_DMA_length = 0;
         NewDMAType dmaType = NewDMAType.General;
         ushort new_DMA_Source = 0, new_DMA_Dest = 0;
+
+
+        bool DMA_CYCLE = false;
 
 
         private byte MEM_r8(ushort address)
@@ -49,6 +52,7 @@ namespace AprEmu.GB
                         return GB_RomPack[address]; //only 32KB ROM
                     case 1:
                     case 2:
+                    case 3:
                     case 0x19:
                     case 0x1a:
                     case 0x1b:
@@ -73,19 +77,27 @@ namespace AprEmu.GB
                     case 1:
                         return GB_MEM[address];
                     case 2:
+                    case 3:
                     case 0x1b:
-                        if (ram_bank_select == 1)
-                            return GB_MEM[address]; // GB_RomPack[address + (rom_bank_select - 1) * 0x4000]; //ROM+MBC1
-                        else
                         {
-                            try
+
+                            return GB_SwitchableRAM[ram_bank_select * 8 * 1024 + (address - 0xA000)];
+
+                            /*
+                            if (ram_bank_select == 1)
+                                return GB_MEM[address]; // GB_RomPack[address + (rom_bank_select - 1) * 0x4000]; //ROM+MBC1
+                            else
                             {
-                                return GB_SwitchableRAM[ram_bank_select - 2][address - 0xA000];
-                            }
-                            catch
-                            {
-                                MessageBox.Show((ram_bank_select - 2).ToString());
-                            }
+                                try
+                                {
+                                    return GB_MEM[address];
+                                    //return GB_SwitchableRAM[ram_bank_select - 2][address - 0xA000];
+                                }
+                                catch
+                                {
+                                    MessageBox.Show("d1:" + (ram_bank_select - 2).ToString());
+                                }
+                            }*/
                         }
                         break;
                 }
@@ -146,7 +158,6 @@ namespace AprEmu.GB
 
         private void MEM_w8(ushort address, byte v)
         {
-
             if (address < 0x8000) //需要實作更多完整MBC特性 PS.不能真的寫入到rom記憶址內容,用來設定ROM Bank用途
             {
                 switch (Cartridge_type)
@@ -157,24 +168,49 @@ namespace AprEmu.GB
                                 mbc_l_bits = (byte)(v & 0x1f);
                             else if (address >= 0x4000 && address <= 0x5fff)
                                 mbc_h_bits = (byte)(v & 0x3);
+
+                            if (mbc_l_bits == 0)
+                                mbc_l_bits |= 1;
+
                             rom_bank_select = (byte)((mbc_h_bits << 5) | mbc_l_bits);
 
 
                             //rom_bank_select |= 1;
 
-                            if (rom_bank_select == 0) rom_bank_select = 1;
+                            // if (rom_bank_select == 0) rom_bank_select = 1;
+
+                            //  Console.WriteLine("rom:" + rom_bank_select);
+
                         }
                         break;
+                    case 3:
                     case 2: //mbc1 ROM+MBC1+RAM
                         {
                             if (address >= 0x2000 && address <= 0x3fff)
-                                rom_bank_select = (byte)(v & 0x1f);
-                            else if (address >= 0x4000 && address <= 0x5fff)
-                                ram_bank_select = (byte)(v & 3);
-                            if (rom_bank_select == 0) rom_bank_select = 1;
-                            if (ram_bank_select == 0) ram_bank_select = 1;
+                            {
+                                mbc_l_bits = (byte)(v & 0x1f);
+                                rom_bank_select = mbc_l_bits;
+                                if (rom_bank_select == 0) rom_bank_select = 1;
 
-                            MessageBox.Show("mbc1 ROM+MBC1+RAM");
+
+                                //    Console.WriteLine("rom:" + rom_bank_select);
+                            }
+                            else if (address >= 0x4000 && address <= 0x5fff)
+                            {
+                                ram_bank_select = (byte)(v & 0x3);
+                                // if (ram_bank_select == 0) ram_bank_select = 1;
+
+
+                                Console.WriteLine("ram:" + ram_bank_select);
+
+
+                                //MessageBox.Show("ram write ! " + ram_bank_select );
+                            }
+
+
+
+
+
                         }
                         break;
 
@@ -257,11 +293,17 @@ namespace AprEmu.GB
                         GB_MEM[address] = v;
                         break;
                     case 2:
+                    case 3:
                     case 0x1b:
-                        if (ram_bank_select == 1)
-                            GB_MEM[address] = v; // GB_RomPack[address + (rom_bank_select - 1) * 0x4000]; //ROM+MBC1
-                        else
-                            GB_SwitchableRAM[ram_bank_select - 2][address - 0xA000] = v;
+                        {
+
+                            GB_SwitchableRAM[ram_bank_select * 8 * 1024 + (address - 0xA000)] = v;
+                            //if (ram_bank_select == 1)
+                            //    GB_MEM[address] = v; // GB_RomPack[address + (rom_bank_select - 1) * 0x4000]; //ROM+MBC1
+                            //else
+                            //GB_MEM[address] = v;
+                            //  GB_SwitchableRAM[ram_bank_select - 2][address - 0xA000] = v;
+                        }
                         break;
                 }
                 //GB_MEM[address] = v;
@@ -486,7 +528,10 @@ namespace AprEmu.GB
                     break;
 
                 case reg_DMA_addr:
-                    Buffer.BlockCopy(GB_MEM, v << 8, GB_MEM, 0xfe00, 160);
+                    for (int i = 0; i < 160; i++)
+                        MEM_w8((ushort)(0xfe00 + i), MEM_r8((ushort)((v << 8) + i)));
+                    // Buffer.BlockCopy(GB_MEM, v << 8, GB_MEM, 0xfe00, 160);
+                    DMA_CYCLE = true;
                     break;
 
                 #region CGB only Register

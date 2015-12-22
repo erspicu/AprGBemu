@@ -19,9 +19,10 @@ namespace AprGBemu
 {
     public partial class AprGBemu_MainUI : Form
     {
+
         Graphics Screen_Panel;
         Thread gb_emu = null;
-        public Apr_GB gb_machine = new Apr_GB();
+        Apr_GB gb_machine = new Apr_GB();
         public Dictionary<string, string> AppConfigure = new Dictionary<string, string>();
         string ConfigureFile = Application.StartupPath + @"\AprGBemu.ini";
         bool UILimitFPS = true;
@@ -30,22 +31,29 @@ namespace AprGBemu
         ScreenPalette gb_palette = ScreenPalette.DarkWhite;
         Dictionary<int, KeyMap> GB_KeyMAP = new Dictionary<int, KeyMap>();
         public Dictionary<string, KeyMap> GB_KeyMAP_joypad = new Dictionary<string, KeyMap>();
+       // public List<string> LangList = LangINI.get_langlist();
 
-
-
-
+       // public Dictionary<string, string> LangUi_str = new Dictionary<string, string>();
 
         public AprGBemu_MainUI()
         {
+            Stopwatch st = new Stopwatch();
+            st.Restart();
             InitializeComponent();
             check_mod();
             Configure_Read();
             GB_init_KeyMap();
             Release_Time = VersionTime();
+            LangINI.init();
+            init_lang();
+            st.Stop();
+            Console.WriteLine("GUI init : " + st.ElapsedMilliseconds + " ms");
+        }
 
-
-
-
+        public void init_lang()
+        {
+            UI_openRomMenuItem.Text = LangINI.lang_table[AppConfigure["Lang"]]["rom"];
+            UI_Configure.Text = LangINI.lang_table[AppConfigure["Lang"]]["setting"];
         }
 
         public void check_mod()
@@ -106,6 +114,8 @@ namespace AprGBemu
                 AppConfigure["HardwareType"] = "DMG";
                 AppConfigure["VideoFilter"] = "scalex";
                 AppConfigure["Sound"] = "0";
+                AppConfigure["Lang"] = "en-us";
+
 
                 Configure_Write();
                 return;
@@ -260,6 +270,7 @@ namespace AprGBemu
             if (gb_emu != null)
             {
                 gb_machine.WaitUnlock(); //避免在Graphics Device寫入階段中斷thread
+                gb_machine.SaveSRAM();
                 gb_emu.Abort();
                 gb_emu = null;
                 GC.Collect();
@@ -274,7 +285,7 @@ namespace AprGBemu
             {
                 gb_machine.filter_use = 1;
             }
-            else 
+            else
             {
                 gb_machine.filter_use = 2;
             }
@@ -352,9 +363,10 @@ namespace AprGBemu
                 MessageBox.Show("Rom File error !");
                 return;
             }
+            gb_machine.rom_path = ROM_FILE; // for mapp .sav file
             gb_machine.GB_Init_LoadRom(RomBytes);
             Screen_Panel = UI_LCD_panel.CreateGraphics();
-            gb_machine.bind_Screen(ref Screen_Panel, UI_LCD_panel.Handle, 48, 40 , UI_LCD_panel.Width , UI_LCD_panel.Height);
+            gb_machine.bind_Screen(ref Screen_Panel, UI_LCD_panel.Handle, 48, 40, UI_LCD_panel.Width, UI_LCD_panel.Height);
 
             if (gb_machine.GB_ScreenSize != 1)
                 gb_machine.Screen_loc = new Point(0, 0);
@@ -398,6 +410,7 @@ namespace AprGBemu
         private void Configure_Click(object sender, EventArgs e)
         {
             GBEMU_ConfigureUI.GetInstance().StartPosition = FormStartPosition.CenterParent;
+            GBEMU_ConfigureUI.GetInstance().init();
             GBEMU_ConfigureUI.GetInstance().ShowDialog(this);
         }
         private void AprGBemu_MainUI_FormClosing(object sender, FormClosingEventArgs e)
@@ -406,6 +419,14 @@ namespace AprGBemu
         }
         private void UI_Close_btn_MouseClick(object sender, MouseEventArgs e)
         {
+            if (gb_emu != null)
+            {
+                gb_machine.WaitUnlock(); //避免在Graphics Device寫入階段中斷thread
+                gb_machine.SaveSRAM();
+                gb_emu.Abort();
+                gb_emu = null;
+                GC.Collect();
+            }
             Close();
         }
         private void UI_Close_btn_MouseEnter(object sender, EventArgs e)
@@ -439,9 +460,7 @@ namespace AprGBemu
         #endregion
         private void AprGBemu_MainUI_Deactivate(object sender, EventArgs e)
         {
-
             return;
-
             if (gb_emu != null)
             {
                 try
@@ -474,11 +493,11 @@ namespace AprGBemu
                     UI_LCD_panel.Width = 256;
                     UI_LCD_panel.Height = 224;
                     this.Width = 280;
-                    this.Height = 280;
+                    this.Height = 280 + 10;
                     UI_Close_hide.Location = new Point(216, 6);
                     UI_Close_btn.Location = new Point(246, 6);
-                    UI_AppName.Location = new Point(12, 264);
-                    FPS_inf.Location = new Point(214, 264);
+                    UI_AppName.Location = new Point(12, 264 + 6);
+                    FPS_inf.Location = new Point(214, 264 + 6);
                     try
                     {
                         gb_machine.Screen_loc = new Point(48, 40);
@@ -492,11 +511,11 @@ namespace AprGBemu
                     UI_LCD_panel.Width = 320;
                     UI_LCD_panel.Height = 288;
                     this.Width = 280 + 64;
-                    this.Height = 280 + 64;
+                    this.Height = 280 + 64 + 10;
                     UI_Close_hide.Location = new Point(216 + 64, 6);
                     UI_Close_btn.Location = new Point(246 + 64, 6);
-                    UI_AppName.Location = new Point(12, 264 + 64);
-                    FPS_inf.Location = new Point(214 + 64, 264 + 64);
+                    UI_AppName.Location = new Point(12, 264 + 64 + 6);
+                    FPS_inf.Location = new Point(214 + 64, 264 + 64 + 6);
                     try
                     {
                         gb_machine.GB_ScreenSize = 2;
@@ -506,18 +525,18 @@ namespace AprGBemu
                     {
                     }
                     Screen_Panel = UI_LCD_panel.CreateGraphics();
-                    gb_machine.bind_Screen(ref Screen_Panel,UI_LCD_panel.Handle , 0, 0 , UI_LCD_panel.Width , UI_LCD_panel.Height);
+                    gb_machine.bind_Screen(ref Screen_Panel, UI_LCD_panel.Handle, 0, 0, UI_LCD_panel.Width, UI_LCD_panel.Height);
                     break;
 
                 case "3":
                     UI_LCD_panel.Width = 480; // 256 - 320
                     UI_LCD_panel.Height = 432; // 224 - 208
                     this.Width = 280 + 224;
-                    this.Height = 280 + 208;
+                    this.Height = 280 + 208 + 10;
                     UI_Close_hide.Location = new Point(216 + 224, 6);
                     UI_Close_btn.Location = new Point(246 + 224, 6);
-                    UI_AppName.Location = new Point(12, 264 + 208);
-                    FPS_inf.Location = new Point(214 + 224, 264 + 208);
+                    UI_AppName.Location = new Point(12, 264 + 208 + 6);
+                    FPS_inf.Location = new Point(214 + 224, 264 + 208 + 6);
                     try
                     {
                         gb_machine.GB_ScreenSize = 3;
@@ -534,11 +553,11 @@ namespace AprGBemu
                     UI_LCD_panel.Width = 640; // 256 - 384
                     UI_LCD_panel.Height = 576; // 224 - 352
                     this.Width = 280 + 384;
-                    this.Height = 280 + 352;
+                    this.Height = 280 + 352 + 10;
                     UI_Close_hide.Location = new Point(216 + 384, 6);
                     UI_Close_btn.Location = new Point(246 + 384, 6);
-                    UI_AppName.Location = new Point(12, 264 + 352);
-                    FPS_inf.Location = new Point(214 + 384, 264 + 352);
+                    UI_AppName.Location = new Point(12, 264 + 352 + 6);
+                    FPS_inf.Location = new Point(214 + 384, 264 + 352 + 6);
                     try
                     {
                         gb_machine.GB_ScreenSize = 4;
@@ -551,15 +570,15 @@ namespace AprGBemu
                     gb_machine.bind_Screen(ref Screen_Panel, UI_LCD_panel.Handle, 0, 0, UI_LCD_panel.Width, UI_LCD_panel.Height);
                     break;
 
-                case "5" :
+                case "5":
                     UI_LCD_panel.Width = 800; // 256 - 384
                     UI_LCD_panel.Height = 720; // 224 - 352
                     this.Width = 280 + 544;
-                    this.Height = 280 + 495;
+                    this.Height = 280 + 495 + 10;
                     UI_Close_hide.Location = new Point(216 + 544, 6);
                     UI_Close_btn.Location = new Point(246 + 544, 6);
-                    UI_AppName.Location = new Point(12, 264 + 496);
-                    FPS_inf.Location = new Point(214 + 544 , 264 + 495);
+                    UI_AppName.Location = new Point(12, 264 + 496 + 6);
+                    FPS_inf.Location = new Point(214 + 544, 264 + 495 + 6);
                     try
                     {
                         gb_machine.GB_ScreenSize = 5;
@@ -575,11 +594,11 @@ namespace AprGBemu
                     UI_LCD_panel.Width = 960; // 256 - 384
                     UI_LCD_panel.Height = 864; // 224 - 352
                     this.Width = 280 + 704;
-                    this.Height = 280 + 640;
+                    this.Height = 280 + 640 + 10;
                     UI_Close_hide.Location = new Point(216 + 704, 6);
                     UI_Close_btn.Location = new Point(246 + 704, 6);
-                    UI_AppName.Location = new Point(12, 264 + 640);
-                    FPS_inf.Location = new Point(214 + 704 , 264 + 640);
+                    UI_AppName.Location = new Point(12, 264 + 640 + 6);
+                    FPS_inf.Location = new Point(214 + 704, 264 + 640 + 6);
                     try
                     {
                         gb_machine.GB_ScreenSize = 6;
@@ -652,6 +671,7 @@ namespace AprGBemu
         private void UI_AppName_Click(object sender, EventArgs e)
         {
             GBEMU_AboutUI.GetInstance().StartPosition = FormStartPosition.CenterParent;
+            GBEMU_AboutUI.GetInstance().init();
             GBEMU_AboutUI.GetInstance().ShowDialog(this);
         }
         DirectInput directInput = new DirectInput();
@@ -809,6 +829,7 @@ namespace AprGBemu
         List<Guid> joypads = new List<Guid>();
         private void AprGBemu_MainUI_Shown(object sender, EventArgs e)
         {
+
             #region joypad init
             //from http://stackoverflow.com/questions/3929764/taking-input-from-a-joystick-with-c-sharp-net
             var joystickGuid = Guid.Empty;
@@ -845,7 +866,7 @@ namespace AprGBemu
                 {
                     APP_VER.Text = "Release " + Release_Time.ToShortDateString() + " " + Release_Time.ToShortTimeString();
                 }));
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
                 Invoke(new MethodInvoker(() =>
                 {
                     APP_VER.Visible = false;
@@ -854,8 +875,8 @@ namespace AprGBemu
             }).Start();
 
             ChangeUIszie(AppConfigure["ScreenSize"]);
-
         }
+
         bool writing = false;
         public void GBCaptureScreen()
         {
@@ -879,7 +900,7 @@ namespace AprGBemu
             writing = false;
         }
 
-        public  void UI_Restart_btn_MouseClick(object sender, MouseEventArgs e)
+        public void UI_Restart_btn_MouseClick(object sender, MouseEventArgs e)
         {
             if (ROM_FILE == "")
                 return;
@@ -889,6 +910,7 @@ namespace AprGBemu
         private void InfoBox_Click(object sender, EventArgs e)
         {
             GBEMU_InfoUI.GetInstance().StartPosition = FormStartPosition.CenterParent;
+            GBEMU_InfoUI.GetInstance().init();
             GBEMU_InfoUI.GetInstance().ShowDialog(this);
         }
 

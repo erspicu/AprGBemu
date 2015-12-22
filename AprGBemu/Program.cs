@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.IO;
 
 namespace AprGBemu
 {
@@ -11,8 +12,14 @@ namespace AprGBemu
         [STAThread]
         static void Main()
         {
-            
-            AppDomain.CurrentDomain.AppendPrivatePath(Application.StartupPath + "\\DLLs");
+
+            if (!File.Exists(Application.StartupPath + "/AprGBemuLang.ini"))
+            {
+                MessageBox.Show("Missing AprGBemuLang.ini language file , exit..");
+                return;
+            }
+
+            AppDomain.CurrentDomain.AppendPrivatePath(Application.StartupPath + "/DLLs");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(AprGBemu_MainUI.GetInstance());

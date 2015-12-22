@@ -1907,6 +1907,14 @@ namespace AprEmu.GB
                     break;
             }
             cycles *= 4;
+
+            if (DMA_CYCLE)
+            {
+                //Console.WriteLine("dma");
+                cycles += 671;
+                DMA_CYCLE = false;
+            }
+
         }
     }
 }

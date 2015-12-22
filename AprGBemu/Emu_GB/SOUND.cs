@@ -583,7 +583,7 @@ namespace AprEmu.GB
         int sampleRate = 48000; //ORG 44100
 
         /** Amount of sound data to buffer before playback */
-        int bufferLengthMsec = 400; //ORG 200
+        //int bufferLengthMsec = 400; //ORG 200
 
         /** Initialize sound emulation, and allocate sound hardware */
         public SoundChip(IntPtr shandle)
@@ -601,16 +601,20 @@ namespace AprEmu.GB
             wav = new WaveFormat(48000, 8, 2);
             SoundBufferDescription des = new SoundBufferDescription();
             des.Format = wav;
-            des.BufferBytes =  (int)(48000 * 2 * 0.2);
+            des.BufferBytes = (int)(48000 * 2 * 0.1);
             des.Flags = BufferFlags.ControlVolume | BufferFlags.ControlFrequency | BufferFlags.ControlPan | BufferFlags.Software;
             buffer = new SecondarySoundBuffer(_SoundDevice, des);
             capabilities = buffer.Capabilities;
+
+
+
             numberOfSamples = capabilities.BufferBytes / wav.BlockAlign;
 
             numSamples =  (sampleRate / 28) & 0xFFFE;
 
             
-            
+
+           // buffer.Play(0, PlayFlags.None );
 
         }
 
@@ -619,39 +623,45 @@ namespace AprEmu.GB
 
         int count = 0;
 
+        
+
         public void outputSound()
         {
             if (soundEnabled)
             {
 
-               // MessageBox.Show(numSamples.ToString());
+               // MessageBox.Show(numberOfSamples.ToString());
 
-                byte[] buf = new byte[numSamples]; //1714
+                //1714
+
+
+                byte[] buf = new byte[numSamples]; 
 
                 if (channel1Enable) channel1.play(buf, numSamples / 2, 0);
                 if (channel2Enable) channel2.play(buf, numSamples / 2, 0);
                 if (channel3Enable) channel3.play(buf, numSamples / 2, 0);
                 if (channel4Enable) channel4.play(buf, numSamples / 2, 0);
 
-
-
-
                 //---------
                 for (int i = 0; i < numSamples; i++)               
                     sbuffer.Add(buf[i]);
+
                 
-                if (sbuffer.Count >=  19200 ) //20568
+                if (sbuffer.Count >= 9600 ) //20568  19200 9600
                 {
+
+                    
+
                     //Console.WriteLine(sbuffer.Count);
                     dataPart1 = buffer.Lock(0, capabilities.BufferBytes, LockFlags.EntireBuffer, out dataPart2);
-                    for (int n = 0; n < numberOfSamples; n++)
+                    for (int n = 0; n < numberOfSamples ; n++)
                     {
                         dataPart1.Write((byte)(((byte)(sbuffer[n * 2] + 128)) >> 1));
                         dataPart1.Write((byte)(((byte)(sbuffer[n * 2 + 1] + 128)) >> 1));
                     }
                     buffer.Unlock(dataPart1, dataPart2);
-                    buffer.Play(0, PlayFlags.None);
 
+                    buffer.Play(0, PlayFlags.None);
                     sbuffer.Clear();
                 }
             }

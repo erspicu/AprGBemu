@@ -53,9 +53,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(8, 65);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 12);
+            this.label2.Size = new System.Drawing.Size(66, 12);
             this.label2.TabIndex = 1;
-            this.label2.Text = "作者 erspicu_brox";
+            this.label2.Text = "erspicu_brox";
             // 
             // label3
             // 
@@ -117,6 +117,7 @@
             this.Name = "GBEMU_AboutUI";
             this.Text = "關於 AprGBemu";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GBEMU_AboutUI_FormClosing);
+            this.Shown += new System.EventHandler(this.GBEMU_AboutUI_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

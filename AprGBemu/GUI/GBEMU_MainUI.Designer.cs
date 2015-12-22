@@ -105,11 +105,11 @@
             // APP_VER
             // 
             this.APP_VER.AutoSize = true;
-            this.APP_VER.Font = new System.Drawing.Font("Microsoft JhengHei", 8F, System.Drawing.FontStyle.Bold);
+            this.APP_VER.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.APP_VER.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
             this.APP_VER.Location = new System.Drawing.Point(0, 0);
             this.APP_VER.Name = "APP_VER";
-            this.APP_VER.Size = new System.Drawing.Size(0, 15);
+            this.APP_VER.Size = new System.Drawing.Size(0, 16);
             this.APP_VER.TabIndex = 0;
             // 
             // FPS_inf
@@ -117,7 +117,7 @@
             this.FPS_inf.AutoSize = true;
             this.FPS_inf.Font = new System.Drawing.Font("Microsoft JhengHei", 8F, System.Drawing.FontStyle.Bold);
             this.FPS_inf.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.FPS_inf.Location = new System.Drawing.Point(214, 264);
+            this.FPS_inf.Location = new System.Drawing.Point(214, 270);
             this.FPS_inf.Name = "FPS_inf";
             this.FPS_inf.Size = new System.Drawing.Size(35, 15);
             this.FPS_inf.TabIndex = 0;
@@ -133,7 +133,7 @@
             this.UI_AppName.BackColor = System.Drawing.Color.Transparent;
             this.UI_AppName.Font = new System.Drawing.Font("Microsoft JhengHei", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.UI_AppName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.UI_AppName.Location = new System.Drawing.Point(12, 264);
+            this.UI_AppName.Location = new System.Drawing.Point(12, 270);
             this.UI_AppName.Margin = new System.Windows.Forms.Padding(0);
             this.UI_AppName.Name = "UI_AppName";
             this.UI_AppName.Size = new System.Drawing.Size(70, 14);
@@ -205,7 +205,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(204)))), ((int)(((byte)(204)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(280, 280);
+            this.ClientSize = new System.Drawing.Size(280, 290);
             this.Controls.Add(this.InfoBox);
             this.Controls.Add(this.UI_Restart_btn);
             this.Controls.Add(this.FPS_inf);

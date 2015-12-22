@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using AprEmu.GB;
 
+
 namespace AprGBemu
 {
     public partial class GBEMU_ConfigureUI : Form
@@ -16,6 +17,43 @@ namespace AprGBemu
         public GBEMU_ConfigureUI()
         {
             InitializeComponent();
+            
+        }
+
+        public void init()
+        {
+            Ok_btn.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["ok"];
+            this.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["settingui"];
+            choose_dir.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["selectfolder"];
+            groupBox1.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["keypad"];
+            groupBox2.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["joypad"];
+            groupBox3.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["palette"];
+            groupBox6.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["filter"];
+            groupBox4.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["screen"];
+            groupBox5.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["hardware"];
+            Sound_checkBox.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["soundout"];
+            LimitFPS_checkBox.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["limitfps"];
+            label18.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["langchoose"];
+            label9.Text = "Shift + p " + LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["capture_path"];
+            radioButton_1.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["classicgreen"];
+            radioButton_0.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["gray"];
+
+            GBbootradioButton.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["classic_gb_boot"];
+            GBCbootradioButton.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["color_gb_boot"];
+            GBradioButton.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["classic_gb"];
+            GBCradioButton.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["color_gb"];
+            GBSradioButton.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["sgb"];
+
+            comboBox1.Items.Clear();
+
+            int ch = 0;
+            foreach (string i in LangINI.lang_map.Keys)
+            {
+                comboBox1.Items.Add(i + " " + LangINI.lang_map[i]);
+                if (i == AprGBemu_MainUI.GetInstance().AppConfigure["Lang"])
+                    comboBox1.SelectedIndex = ch;
+                ch++;
+            }
         }
 
         protected static GBEMU_ConfigureUI instance;
@@ -23,6 +61,9 @@ namespace AprGBemu
         {
             if (instance == null || instance.IsDisposed)
                 instance = new GBEMU_ConfigureUI();
+
+            
+
             return instance;
         }
 
@@ -100,8 +141,13 @@ namespace AprGBemu
             else
                 AprGBemu_MainUI.GetInstance().AppConfigure["ScreenPalette"] = "1";
 
+
+           AprGBemu_MainUI.GetInstance().AppConfigure["Lang"] = (comboBox1.SelectedItem as string).Split(new char[] { ' ' })[0];
+
             AprGBemu_MainUI.GetInstance().Configure_Write();
             AprGBemu_MainUI.GetInstance().UI_Restart_btn_MouseClick(null, null);
+
+            AprGBemu_MainUI.GetInstance().init_lang();
 
         }
 
@@ -298,13 +344,15 @@ namespace AprGBemu
 
         private void GBEMU_ConfigureUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            Hide();
+            // e.Cancel = true;
+            // Hide();
         }
 
         ScreenPalette gb_palette = ScreenPalette.DarkWhite;
         private void GBEMU_ConfigureUI_Shown(object sender, EventArgs e)
         {
+
+            //init();
 
             GB_KeyMAP_joypad_config.Clear();
             foreach (string key in AprGBemu_MainUI.GetInstance().GB_KeyMAP_joypad.Keys)
@@ -482,14 +530,14 @@ namespace AprGBemu
                 GBCradioButton.Checked = true;
             }
 
-            if (!File.Exists(Application.StartupPath + @"\bootstrap\gbc_bios.bin"))
+            if (!File.Exists(Application.StartupPath + "/bootstrap/gbc_bios.bin"))
             {
                 GBCbootradioButton.Enabled = false;
                 if (AprGBemu_MainUI.GetInstance().AppConfigure["HardwareType"] == "CGB")
                     GBCradioButton.Checked = true;
             }
 
-            if (!File.Exists(Application.StartupPath + @"\bootstrap\DMG_ROM.bin"))
+            if (!File.Exists(Application.StartupPath + "/bootstrap/DMG_ROM.bin"))
             {
                 GBbootradioButton.Enabled = false;
                 if (AprGBemu_MainUI.GetInstance().AppConfigure["HardwareType"] == "DMG")
@@ -596,6 +644,11 @@ namespace AprGBemu
                     radioButtonX4.Checked = true;
                 }
             }
+        }
+
+        private void textBox_A_Leave(object sender, EventArgs e)
+        {
+            ( sender as TextBox).ReadOnly = true;
         }
     }
 }

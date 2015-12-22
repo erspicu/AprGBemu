@@ -123,6 +123,7 @@
     </Compile>
     <Compile Include="tool\HS_HQ.cs" />
     <Compile Include="tool\io_tool.cs" />
+    <Compile Include="tool\LangINI.cs" />
     <Compile Include="tool\libXBRz.cs" />
     <Compile Include="tool\NativeWIN32API.cs" />
     <Compile Include="tool\Scalex.cs" />

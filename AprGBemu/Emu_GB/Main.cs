@@ -22,7 +22,7 @@ namespace AprEmu.GB
 
         public int filter_use = 0;
 
-        public bool sound_use = false ;
+        public bool sound_use = false;
 
         int flagZ = FlagClear, flagN = FlagClear, flagH = FlagClear, flagC = FlagClear;
 
@@ -76,6 +76,12 @@ namespace AprEmu.GB
 
         SoundChip soundChip;
 
+
+        public string rom_path = "";
+
+
+        string save_rom_path = "";
+
         public void GB_Init_LoadRom(byte[] rom_bytes)
         {
             Info = "";
@@ -87,11 +93,57 @@ namespace AprEmu.GB
             HS_HQ.initTable();
             HS_XBRz.initTable();
 
-            soundChip = new SoundChip( handle_sound );
+            soundChip = new SoundChip(handle_sound);
 
 
             GB_RomPack = rom_bytes;
             Cartridge_type = GB_RomPack[0x147];
+
+
+            switch (Cartridge_type)
+            {
+                case 3: //ROM_MBC1_RAM_BATT 
+                    {
+                        save_rom_path = rom_path + ".sav";
+                        if (!File.Exists(save_rom_path))
+                        {
+                            switch (GB_RomPack[0x149])
+                            {
+                                case 0:
+                                    break;
+
+                                case 1:
+                                    File.WriteAllBytes(save_rom_path, new byte[2 * 1024]); //2k
+                                    break;
+
+                                case 2:
+                                    File.WriteAllBytes(save_rom_path, new byte[8 * 1024]); //8k
+                                    break;
+
+                                case 3:
+                                    File.WriteAllBytes(save_rom_path, new byte[32 * 1024]); //32k
+                                    break;
+
+                                case 4: File.WriteAllBytes(save_rom_path, new byte[128 * 1024]); //128k
+                                    break;
+
+                            }
+                        }
+                        else //load sav to memory
+                        {
+                            byte[] sav = File.ReadAllBytes(save_rom_path);
+
+                            for (int i = 0; i < sav.Length; i++)
+                                GB_SwitchableRAM[i] = sav[i];
+
+                        }
+
+
+                    }
+                    break;
+            }
+
+
 
             if (GB_RomPack[0x146] == 3)
                 CartridgeSupport = HardwareType.SuperGameBoy;
@@ -107,7 +159,7 @@ namespace AprEmu.GB
 
             CartridgeSupport = HardwareType.GameBoy;
 
-            string title = "" +Convert.ToChar(GB_RomPack[0x134]) +
+            string title = "" + Convert.ToChar(GB_RomPack[0x134]) +
                 Convert.ToChar(GB_RomPack[0x135]) +
                 Convert.ToChar(GB_RomPack[0x136]) +
                 Convert.ToChar(GB_RomPack[0x137]) +
@@ -281,8 +333,8 @@ namespace AprEmu.GB
             for (int i = 0; i < 640; i++)
                 Buffer_Screen_array4xbuffer[i] = new uint[576];
 
-            for (int i = 0; i < 16; i++)
-                GB_SwitchableRAM[i] = new byte[0x2000];
+            //  for (int i = 0; i < 16; i++)
+            //      GB_SwitchableRAM[i] = new byte[0x2000];
 
 
             string bootfile_GBC = Application.StartupPath + @"\bootstrap\gbc_bios.bin";
@@ -365,6 +417,73 @@ namespace AprEmu.GB
             while (device_maybe_locking != false)
                 Thread.Sleep(0);
         }
+
+        public void SaveSRAM()
+        {
+
+            switch (Cartridge_type)
+            {
+                case 3: //ROM_MBC1_RAM_BATT 
+                    {
+                        save_rom_path = rom_path + ".sav";
+                        if (!File.Exists(save_rom_path))
+                            return;
+
+                        switch (GB_RomPack[0x149])
+                        {
+                            case 0:
+                                break;
+
+                            case 1:
+                                {
+                                    byte[] sav = new byte[2 * 1024];
+                                    for (int i = 0; i < 2 * 1024; i++)
+                                        sav[i] = GB_SwitchableRAM[i];
+                                    File.WriteAllBytes(save_rom_path, sav);
+                                }
+                                break;
+
+                            case 2:
+                                {
+                                    byte[] sav = new byte[8 * 1024];
+                                    for (int i = 0; i < 8 * 1024; i++)
+                                        sav[i] = GB_SwitchableRAM[i];
+                                    File.WriteAllBytes(save_rom_path, sav);
+                                }
+                                break;
+
+                            case 3:
+                                {
+                                    byte[] sav = new byte[32 * 1024];
+                                    for (int i = 0; i < 32 * 1024; i++)
+                                        sav[i] = GB_SwitchableRAM[i];
+                                    File.WriteAllBytes(save_rom_path, sav);
+                                }
+                                break;
+
+                            case 4:
+                                {
+                                    byte[] sav = new byte[128 * 1024];
+                                    for (int i = 0; i < 128 * 1024; i++)
+                                        sav[i] = GB_SwitchableRAM[i];
+                                    File.WriteAllBytes(save_rom_path, sav);
+                                }
+                                break;
+
+                        }
+                    }
+                    break;
+            }
+
+
+
+
+
+
+            save_rom_path = "";
+        }
+
+
 
 
         int s = 0;
@@ -681,7 +800,7 @@ namespace AprEmu.GB
                     if (GB_MEM[reg_LY_addr] == 144)
                     {
 
-                        if(sound_use)
+                        if (sound_use)
                             soundChip.outputSound();
 
                         GB_GPU_Model_1();
@@ -695,7 +814,7 @@ namespace AprEmu.GB
                             while (StopWatch.Elapsed.TotalSeconds < 0.01674) //0.0167
                                 Thread.Sleep(0);
 
-                        
+
 
                         StopWatch.Restart();
 

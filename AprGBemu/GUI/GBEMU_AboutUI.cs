@@ -16,8 +16,17 @@ namespace AprGBemu
         public GBEMU_AboutUI()
         {
             InitializeComponent();
+
+        }
+
+        public void init()
+        {
             VER = AprGBemu_MainUI.GetInstance().Release_Time;
-            label3.Text = "版本 " + VER.ToLongDateString() + " " + VER.ToShortTimeString();
+            label3.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["version"] + " " + VER.ToLongDateString() + " " + VER.ToShortTimeString();
+            this.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["aboutapp"];
+            label2.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["author"] + " " + "erspicu_brox";
+            linkLabel1.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["visit_site"];
+            button1.Text = LangINI.lang_table[AprGBemu_MainUI.GetInstance().AppConfigure["Lang"]]["ok"];
         }
 
         protected static GBEMU_AboutUI instance;
@@ -30,18 +39,23 @@ namespace AprGBemu
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Hide();
+            Close();
+            //Hide();
         }
 
         private void GBEMU_AboutUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            Hide();
+            //e.Cancel = true;
+            //Hide();
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://dl.dropboxusercontent.com/u/61164954/project/AprGBEmu/index.htm");
+        }
+
+        private void GBEMU_AboutUI_Shown(object sender, EventArgs e)
+        {
         }
 
     }
